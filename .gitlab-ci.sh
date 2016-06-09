@@ -24,3 +24,4 @@ php artisan config:cache
 
 # Run database migrations.
 php artisan migrate
+php artisan db:seed
