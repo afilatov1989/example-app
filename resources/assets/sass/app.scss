@@ -1,2 +1,12 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+body {
+  padding-top: 70px;
+}
+
+.form-horizontal {
+  .error.ng-binding {
+    white-space: pre-wrap;
+    color: #ee5f5b;
+  }
+}

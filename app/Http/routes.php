@@ -11,6 +11,41 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+/**
+ * AngularJS frontend routes
+ */
+
+$angularSpaAction = 'MainController@spa';
+
+Route::get('/', $angularSpaAction);
+Route::get('signin', $angularSpaAction);
+Route::get('signup', $angularSpaAction);
+
+
+/**
+ * REST API routes
+ */
+
+Route::group(['prefix' => 'api/v1', 'namespace' => 'Api'], function () {
+    // Auth routes
+    Route::post('signin', 'AuthController@signIn');
+    Route::post('signup', 'AuthController@signUp');
+
+    // User meals CRUD routes
+    Route::get('user_meals/{user}', 'UserMealsController@index');
+    Route::post('user_meals/{user}', 'UserMealsController@store');
+    Route::match(
+        ['put', 'patch'],
+        'user_meals/{user}/{id}',
+        'UserMealsController@update');
+    Route::delete('user_meals/{user}/{id}', 'UserMealsController@destroy');
+
+    // Users CRUD routes
+    Route::get('users', 'UsersController@index');
+    Route::get('users/{user}', 'UsersController@show');
+    Route::post('users', 'UsersController@store');
+    Route::match(['put', 'patch'], 'users/{user}', 'UsersController@update');
+    Route::delete('users/{user}', 'UsersController@destroy');
+    Route::match(['put', 'patch'], 'users/change_password/{user}',
+        'UsersController@changePassword');
 });
