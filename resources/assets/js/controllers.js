@@ -5,13 +5,6 @@
         .controller('HomeController', ['$rootScope', '$scope', '$location', '$localStorage', 'Auth',
             function ($rootScope, $scope, $location, $localStorage, Auth) {
 
-                function successAuth(res) {
-                    $localStorage.token = res.data.token;
-                    $localStorage.$save();
-                    window.location.href = "/";
-                    window.location.reload();
-                }
-
                 $scope.signin = function () {
                     var formData = {
                         email: $scope.email,
@@ -35,6 +28,13 @@
                         $rootScope.error = res.error.errors.join('\n') || 'Failed to sign up.';
                     })
                 };
+
+                function successAuth(res) {
+                    $localStorage.token = res.data.token;
+                    $localStorage.$save();
+                    window.location.href = "/";
+                    window.location.reload();
+                }
 
                 $scope.logout = function () {
                     Auth.logout(function () {

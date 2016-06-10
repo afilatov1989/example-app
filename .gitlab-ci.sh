@@ -18,8 +18,9 @@ php composer.phar install
 # Copy over testing configuration.
 cp .env.gitlab .env
 
-# Generate an application key. Re-cache.
+# Generate an application keys. Re-cache.
 php artisan key:generate
+php artisan jwt:generate
 php artisan config:cache
 
 # Run database migrations and seed DB

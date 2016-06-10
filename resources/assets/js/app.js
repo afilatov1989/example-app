@@ -33,7 +33,7 @@
                             return config;
                         },
                         'responseError': function (response) {
-                            if (response.status === 401 || response.status === 403) {
+                            if (response.status === 401) {
                                 delete $localStorage.token;
                                 $localStorage.$save();
                                 $location.path('/signin');
@@ -45,6 +45,9 @@
             }
         ]).run(['$rootScope', '$location', '$localStorage', function ($rootScope, $location, $localStorage) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
+
+            $rootScope.error = '';
+
             if ($localStorage.token == null) {
                 if (next.templateUrl !== "partials/signin.html" &&
                     next.templateUrl !== "partials/signup.html") {

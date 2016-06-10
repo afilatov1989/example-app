@@ -43,6 +43,30 @@
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        <div data-ng-show="error" class="col-lg-6 col-lg-offset-3">
+            <div class="bs-component">
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="close"
+                            data-dismiss="alert">&times;</button>
+                    <span ng-bind="error"></span>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="success" class="col-lg-6 col-lg-offset-3">
+            <div class="bs-component">
+                <div class="alert alert-dismissible alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×
+                    </button>
+                    <span ng-bind="success"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container" ng-view=""></div>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
