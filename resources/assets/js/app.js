@@ -11,6 +11,8 @@
         })
         .config(['$routeProvider', '$httpProvider', '$locationProvider',
             function ($routeProvider, $httpProvider, $locationProvider) {
+
+                // ROUTES
                 $routeProvider.when('/signin', {
                     templateUrl: 'partials/signin.html',
                     controller: 'AuthController'
@@ -35,6 +37,7 @@
                 $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '$injector',
                     function ($q, $location, $localStorage, $injector) {
                         return {
+                            // Add token header to each request
                             'request': function (config) {
                                 config.headers = config.headers || {};
                                 if ($localStorage.token) {
@@ -42,6 +45,8 @@
                                 }
                                 return config;
                             },
+                            // Logout user if she is not authenticated
+                            // or tried to access restricted resource
                             'responseError': function (response) {
                                 var Auth = $injector.get('Auth');
                                 if (response.status === 401 || response.status === 403) {
@@ -53,41 +58,30 @@
                     }]);
             }
         ])
-        .run(['$rootScope', '$location', '$localStorage', 'Auth',
-            function ($rootScope, $location, $localStorage, Auth) {
+        .run(['$rootScope', '$location', 'Auth', '$injector',
+            function ($rootScope, $location, Auth, $injector) {
 
-                $rootScope.cur_user_update_show = false;
-                $rootScope.modal_back_show = false;
-                $rootScope.token = $localStorage.token;
-                $rootScope.tokenClaims = Auth.getTokenClaims();
+                // load app info from Auth service to $rootScope
+                Auth.loadTokenToRootScope();
+                Auth.loadUserToRootScope();
 
-                $rootScope.updateCurUserFormToggle = function () {
-                    $rootScope.cur_user_update_show = !$rootScope.cur_user_update_show;
-                    $rootScope.modal_back_show = !$rootScope.modal_back_show;
-                };
-
-                $rootScope.errorsFromRequest = function (response) {
-                    if (typeof(response.error) === 'undefined') response = response.data;
-
-                    $rootScope.error = 'Unknown error';
-                    if (typeof(response.error.errors) === 'object')
-                        $rootScope.error = response.error.errors.join('\n');
-                    else if (typeof(response.error.message) === 'string')
-                        $rootScope.error = response.error.message;
-                };
+                // load global and user functions to $rootScope
+                $injector.get('Globals');
+                $injector.get('User');
 
                 $rootScope.$on("$routeChangeStart", function (event, next) {
 
                     // Show page only if content loaded correctly
                     $rootScope.page_content_loaded = false;
+
                     // Renew errors list for each page
                     $rootScope.error = '';
 
-                    if ($localStorage.token == null && next.controller != 'AuthController') {
+                    // Authentication redirects
+                    if ($rootScope.token == null && next.controller != 'AuthController') {
                         $location.path("/signin");
                     }
-
-                    if ($localStorage.token != null && next.controller == 'AuthController') {
+                    if ($rootScope.token != null && next.controller == 'AuthController') {
                         $location.path("/");
                     }
 

@@ -65,7 +65,6 @@ class User extends Authenticatable
         return [
             'can_manage_users'   => intval($user->can('manage-user')),
             'can_manage_records' => intval($user->can('manage-record')),
-            'user_name'          => $user->name,
         ];
     }
 

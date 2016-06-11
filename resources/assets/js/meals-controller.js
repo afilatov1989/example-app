@@ -5,9 +5,14 @@
         .controller('MealsController', ['$rootScope', '$scope', '$location', 'Meal', 'Auth', '$routeParams',
             function ($rootScope, $scope, $location, Meal, Auth, $routeParams) {
 
-                // Get user_id from token or route parameter
-                var user_id = Auth.getTokenClaims().sub;
+                // Get user_id from route parameter
+                // or get current user if user_id is not provided
+                var user_id = $rootScope.current_user.id;
                 if (typeof($routeParams.user) !== 'undefined') user_id = $routeParams.user;
+
+                /**
+                 * GET meals list
+                 */
 
                 $scope.date_from = new Date();
                 $scope.date_from.setDate($scope.date_from.getDate() - 7);
@@ -15,22 +20,7 @@
                 $scope.time_from = null;
                 $scope.time_to = null;
 
-                $scope.meal_update_show = false;
-                $scope.updateMealForm = function (meal) {
-                    $scope.current_meal = meal;
-                    $scope.meal_update_show = !$scope.meal_update_show;
-                    $rootScope.modal_back_show = !$rootScope.modal_back_show;
-                };
-                $scope.updateMealFormClose = function () {
-                    $scope.current_meal = null;
-                    $scope.meal_update_show = !$scope.meal_update_show;
-                    $rootScope.modal_back_show = !$rootScope.modal_back_show;
-                };
-
-                $scope.dateFormat = function (date) {
-                    return moment(date).format('Do MMMM YYYY');
-                }
-
+                // load Meals from API to scope
                 $scope.getMeals = function () {
 
                     var data = {
@@ -51,11 +41,21 @@
                         $rootScope.error = '';
                         $rootScope.page_content_loaded = true;
                         $scope.daily_data = response.data.data.daily_data;
-                        $rootScope.user = response.data.data.user;
-                    }, $rootScope.errorsFromRequest);
-                };
+                        $scope.meals_owner = response.data.data.user;
+                    });
+                }();
 
-                $scope.getMeals();
+                /**
+                 * UPDATE meal
+                 */
+
+                $scope.current_meal = null;
+                $scope.meal_update_show = false;
+                $scope.updateMealFormToggle = function (meal) {
+                    $scope.current_meal = meal;
+                    $scope.meal_update_show = !$scope.meal_update_show;
+                    $rootScope.modal_back_show = !$rootScope.modal_back_show;
+                };
 
             }]);
 })();

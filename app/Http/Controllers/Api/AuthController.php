@@ -34,7 +34,10 @@ class AuthController extends Controller
             );
         }
 
-        return rest_data_response(['token' => $token]);
+        return rest_data_response([
+            'token' => $token,
+            'user'  => User::getByEmail($request->email)->toArray(),
+        ]);
     }
 
     /**
@@ -71,6 +74,9 @@ class AuthController extends Controller
         $user = User::create($data);
         $token = $auth->fromUser($user, $custom_claims);
 
-        return rest_data_response(['token' => $token]);
+        return rest_data_response([
+            'token' => $token,
+            'user'  => $user->toArray(),
+        ]);
     }
 }

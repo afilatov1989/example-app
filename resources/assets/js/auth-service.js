@@ -4,6 +4,7 @@
     angular.module('app')
         .factory('Auth', ['$location', '$rootScope', 'appConfig', '$http', '$localStorage',
             function ($location, $rootScope, appConfig, $http, $localStorage) {
+
                 function urlBase64Decode(str) {
                     var output = str.replace('-', '+').replace('_', '/');
                     switch (output.length % 4) {
@@ -35,10 +36,22 @@
                     $rootScope.tokenClaims = null;
                 }
 
+                function saveUser(user) {
+                    $localStorage.current_user = user;
+                    $localStorage.$save();
+                    $rootScope.current_user = user;
+                }
+
+                function deleteUser() {
+                    delete $localStorage.current_user;
+                    $localStorage.$save();
+                    $rootScope.current_user = null;
+                }
+
                 function getTokenClaims() {
                     var token = $localStorage.token;
                     var user = {};
-                    if (typeof token !== 'undefined') {
+                    if (typeof token === 'string') {
                         var encoded = token.split('.')[1];
                         user = JSON.parse(urlBase64Decode(encoded));
                     }
@@ -50,6 +63,7 @@
                         $http.post(appConfig.apiUrl + 'signup', data)
                             .success(function (response) {
                                 saveToken(response.data.token);
+                                saveUser(response.data.user);
                                 $location.path("/");
                             })
                             .error($rootScope.errorsFromRequest);
@@ -58,15 +72,23 @@
                         $http.post(appConfig.apiUrl + 'signin', data)
                             .success(function (response) {
                                 saveToken(response.data.token);
+                                saveUser(response.data.user);
                                 $location.path("/");
                             })
                             .error($rootScope.errorsFromRequest);
                     },
                     logout: function () {
                         deleteToken();
+                        deleteUser();
                         $location.path("/signin");
                     },
-                    getTokenClaims: getTokenClaims
+                    loadTokenToRootScope: function () {
+                        $rootScope.token = $localStorage.token;
+                        $rootScope.tokenClaims = getTokenClaims();
+                    },
+                    loadUserToRootScope: function () {
+                        $rootScope.current_user = $localStorage.current_user;
+                    }
                 };
             }
         ]);

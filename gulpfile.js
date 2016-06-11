@@ -35,7 +35,8 @@ elixir(function (mix) {
         'users-controller.js',
         'auth-service.js',
         'meals-service.js',
-        'users-service.js'
+        'users-service.js',
+        'globals-service.js'
     ]);
 
     mix.scripts([

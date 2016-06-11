@@ -17,6 +17,12 @@ $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
+$I->seeResponseContainsJson([
+    'data' => [
+        'name'  => 'John Smith',
+        'email' => 'davert@codeception.com',
+    ]
+]);
 
 /**
  * Sign In created user. Should be OK

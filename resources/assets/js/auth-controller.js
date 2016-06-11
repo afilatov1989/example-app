@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('app')
-        .controller('AuthController', ['$rootScope', '$scope', '$location', '$localStorage', 'Auth',
-            function ($rootScope, $scope, $location, $localStorage, Auth) {
+        .controller('AuthController', ['$rootScope', '$scope', 'Auth',
+            function ($rootScope, $scope, Auth) {
 
                 $scope.signin = function () {
                     var formData = {

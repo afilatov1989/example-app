@@ -21,8 +21,15 @@ body {
 
 #filter-panel {
   text-align: center;
-  .form-group {
-    margin-right: 20px;
+  button {
+    width: 100%;
+    max-width: 350px;
+  }
+  .panel-body {
+    > div {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
   }
 }
 
@@ -59,20 +66,20 @@ input.ng-invalid {
     width: 80px;
   }
   .col-calories {
-    width: 100px;
+    width: 75px;
   }
   .col-buttons {
     text-align: right;
-    width: 70px;
+    width: 60px;
     .fa-pencil {
       color: $color_warning;
+      margin-right: 10px;
     }
     .fa-times {
       color: $color_error;
     }
     .fa {
       cursor: pointer;
-      margin-right: 10px;
       display: inline-block;
       font-size: 16px;
     }
@@ -84,7 +91,16 @@ input.ng-invalid {
 }
 
 .nav-username {
-  margin-right: 15px !important;
+  margin-right: 0px !important;
+  cursor: pointer;
+  float: right;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.navbar-nav.navbar-user {
+  margin: 0px -15px;
 }
 
 .user-change-text {
@@ -98,5 +114,15 @@ input.ng-invalid {
   }
   .fa-pencil {
     display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .filter-date-input {
+    max-width: 150px;
+  }
+
+  .filter-time-input {
+    max-width: 100px;
   }
 }

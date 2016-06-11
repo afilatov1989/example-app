@@ -1,6 +1,7 @@
 <?php
 $I = new ApiTester($scenario);
 $I->wantTo('check user login via /api/v1/signin');
+$user1 = $I->getUserByEmail('user1@test.com');
 
 /**
  * Correct authentication
@@ -15,6 +16,15 @@ $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
+$I->seeResponseContainsJson([
+    'data' => [
+        'id'               => $user1->id,
+        'name'             => $user1->name,
+        'calories_per_day' => $user1->calories_per_day,
+        'email'            => $user1->email,
+
+    ]
+]);
 
 /**
  * Try to sign in with incorrect credentials
