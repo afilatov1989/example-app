@@ -107,6 +107,7 @@
 MODAL WINDOW FOR UPDATING CURRENT USER
 
 **************************************************************************** -->
+
 <div data-ng-controller="AuthController">
     <div ng-cloak data-ng-show="cur_user_update_show" class="modal fade in">
         <div class="modal-dialog">

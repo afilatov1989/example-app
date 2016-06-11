@@ -32,8 +32,8 @@
 
                 $locationProvider.html5Mode(true);
 
-                $httpProvider.interceptors.push(['$q', '$location', '$localStorage',
-                    function ($q, $location, $localStorage) {
+                $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '$rootScope',
+                    function ($q, $location, $localStorage, $rootScope) {
                         return {
                             'request': function (config) {
                                 config.headers = config.headers || {};
@@ -44,7 +44,11 @@
                             },
                             'responseError': function (response) {
                                 if (response.status === 401 || response.status === 403) {
-                                    $location.path('/');
+                                    delete $localStorage.token;
+                                    $localStorage.$save();
+                                    $rootScope.token = null;
+                                    $rootScope.tokenClaims = null;
+                                    $location.path('/signin');
                                 }
                                 return $q.reject(response);
                             }
@@ -52,35 +56,41 @@
                     }]);
             }
         ])
-        .run(['$rootScope', '$location', '$localStorage',
-            function ($rootScope, $location, $localStorage) {
+        .run(['$rootScope', '$location', '$localStorage', 'Auth',
+            function ($rootScope, $location, $localStorage, Auth) {
+
+                $rootScope.cur_user_update_show = false;
+                $rootScope.modal_back_show = false;
+                $rootScope.token = $localStorage.token;
+                $rootScope.tokenClaims = Auth.getTokenClaims();
+
+                $rootScope.updateCurUserFormToggle = function () {
+                    $rootScope.cur_user_update_show = !$rootScope.cur_user_update_show;
+                    $rootScope.modal_back_show = !$rootScope.modal_back_show;
+                };
+
                 $rootScope.errorsFromRequest = function (response) {
                     if (typeof(response.error) === 'undefined') response = response.data;
+
+                    $rootScope.error = 'Unknown error';
                     if (typeof(response.error.errors) === 'object')
                         $rootScope.error = response.error.errors.join('\n');
                     else if (typeof(response.error.message) === 'string')
                         $rootScope.error = response.error.message;
-                    else
-                        $rootScope.error = 'Unknown error';
                 };
 
                 $rootScope.$on("$routeChangeStart", function (event, next) {
 
                     $rootScope.error = '';
 
-                    if ($localStorage.token == null) {
-                        if (next.templateUrl !== "partials/signin.html" &&
-                            next.templateUrl !== "partials/signup.html") {
-
-                            $location.path("/signin");
-                        }
-                    } else {
-                        if (next.templateUrl === "partials/signin.html" ||
-                            next.templateUrl === "partials/signup.html") {
-
-                            $location.path("/");
-                        }
+                    if ($localStorage.token == null && next.controller != 'AuthController') {
+                        $location.path("/signin");
                     }
+
+                    if ($localStorage.token != null && next.controller == 'AuthController') {
+                        $location.path("/");
+                    }
+
                 });
             }]);
 })();

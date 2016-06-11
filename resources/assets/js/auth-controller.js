@@ -11,7 +11,7 @@
                         password: $scope.password
                     };
 
-                    Auth.signin(formData, successAuth, $rootScope.errorsFromRequest)
+                    Auth.signin(formData);
                 };
 
                 $scope.signup = function () {
@@ -22,32 +22,12 @@
                         password_confirmation: $scope.password_confirmation
                     };
 
-                    Auth.signup(formData, successAuth, $rootScope.errorsFromRequest)
+                    Auth.signup(formData);
                 };
-
-                function successAuth(res) {
-                    $localStorage.token = res.data.token;
-                    $localStorage.$save();
-                    $rootScope.token = res.data.token;
-                    $rootScope.tokenClaims = Auth.getTokenClaims();
-                    $location.path("/");
-                }
 
                 $scope.logout = function () {
-                    Auth.logout(function () {
-                        $rootScope.token = false;
-                        $rootScope.tokenClaims = false;
-                        $location.path("/signin");
-                    });
+                    Auth.logout();
                 };
 
-                $rootScope.token = $localStorage.token;
-                $rootScope.tokenClaims = Auth.getTokenClaims();
-                $rootScope.cur_user_update_show = false;
-                $rootScope.modal_back_show = false;
-                $rootScope.updateCurUserFormToggle = function () {
-                    $rootScope.cur_user_update_show = !$rootScope.cur_user_update_show;
-                    $rootScope.modal_back_show = !$rootScope.modal_back_show;
-                };
             }]);
 })();

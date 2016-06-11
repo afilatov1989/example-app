@@ -2,37 +2,40 @@
     'use strict';
 
     angular.module('app')
-        .factory('Auth', ['appConfig', '$http', '$localStorage', function (appConfig, $http, $localStorage) {
-            function urlBase64Decode(str) {
-                var output = str.replace('-', '+').replace('_', '/');
-                switch (output.length % 4) {
-                    case 0:
-                        break;
-                    case 2:
-                        output += '==';
-                        break;
-                    case 3:
-                        output += '=';
-                        break;
-                    default:
-                        throw 'Illegal base64url string!';
+        .factory('Auth', ['$location', '$rootScope', 'appConfig', '$http', '$localStorage',
+            function ($location, $rootScope, appConfig, $http, $localStorage) {
+                function urlBase64Decode(str) {
+                    var output = str.replace('-', '+').replace('_', '/');
+                    switch (output.length % 4) {
+                        case 0:
+                            break;
+                        case 2:
+                            output += '==';
+                            break;
+                        case 3:
+                            output += '=';
+                            break;
+                        default:
+                            throw 'Illegal base64url string!';
+                    }
+                    return window.atob(output);
                 }
-                return window.atob(output);
-            }
 
-            return {
-                signup: function (data, success, error) {
-                    $http.post(appConfig.apiUrl + 'signup', data).success(success).error(error);
-                },
-                signin: function (data, success, error) {
-                    $http.post(appConfig.apiUrl + 'signin', data).success(success).error(error);
-                },
-                logout: function (success) {
+                function saveToken(token) {
+                    $localStorage.token = token;
+                    $localStorage.$save();
+                    $rootScope.token = token;
+                    $rootScope.tokenClaims = getTokenClaims();
+                }
+
+                function deleteToken() {
                     delete $localStorage.token;
                     $localStorage.$save();
-                    success();
-                },
-                getTokenClaims: function () {
+                    $rootScope.token = null;
+                    $rootScope.tokenClaims = null;
+                }
+
+                function getTokenClaims() {
                     var token = $localStorage.token;
                     var user = {};
                     if (typeof token !== 'undefined') {
@@ -41,7 +44,30 @@
                     }
                     return user;
                 }
-            };
-        }
+
+                return {
+                    signup: function (data) {
+                        $http.post(appConfig.apiUrl + 'signup', data)
+                            .success(function (response) {
+                                saveToken(response.data.token);
+                                $location.path("/");
+                            })
+                            .error($rootScope.errorsFromRequest);
+                    },
+                    signin: function (data) {
+                        $http.post(appConfig.apiUrl + 'signin', data)
+                            .success(function (response) {
+                                saveToken(response.data.token);
+                                $location.path("/");
+                            })
+                            .error($rootScope.errorsFromRequest);
+                    },
+                    logout: function () {
+                        deleteToken();
+                        $location.path("/signin");
+                    },
+                    getTokenClaims: getTokenClaims
+                };
+            }
         ]);
 })();
