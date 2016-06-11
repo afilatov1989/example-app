@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app')
-        .factory('Auth', ['$http', '$localStorage', function ($http, $localStorage) {
+        .factory('Auth', ['appConfig', '$http', '$localStorage', function (appConfig, $http, $localStorage) {
             function urlBase64Decode(str) {
                 var output = str.replace('-', '+').replace('_', '/');
                 switch (output.length % 4) {
@@ -20,33 +20,26 @@
                 return window.atob(output);
             }
 
-            function getClaimsFromToken() {
-                var token = $localStorage.token;
-                var user = {};
-                if (typeof token !== 'undefined') {
-                    var encoded = token.split('.')[1];
-                    user = JSON.parse(urlBase64Decode(encoded));
-                }
-                return user;
-            }
-
-            var tokenClaims = getClaimsFromToken();
-
             return {
                 signup: function (data, success, error) {
-                    $http.post('/api/v1/signup', data).success(success).error(error);
+                    $http.post(appConfig.apiUrl + 'signup', data).success(success).error(error);
                 },
                 signin: function (data, success, error) {
-                    $http.post('/api/v1/signin', data).success(success).error(error);
+                    $http.post(appConfig.apiUrl + 'signin', data).success(success).error(error);
                 },
                 logout: function (success) {
-                    tokenClaims = {};
                     delete $localStorage.token;
                     $localStorage.$save();
                     success();
                 },
                 getTokenClaims: function () {
-                    return tokenClaims;
+                    var token = $localStorage.token;
+                    var user = {};
+                    if (typeof token !== 'undefined') {
+                        var encoded = token.split('.')[1];
+                        user = JSON.parse(urlBase64Decode(encoded));
+                    }
+                    return user;
                 }
             };
         }

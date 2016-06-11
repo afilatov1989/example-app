@@ -49,6 +49,27 @@ class User extends Authenticatable
     }
 
     /**
+     * Returns custom claims for token generating by user email.
+     * If user is not found, returns an empty array
+     *
+     * @param string $email
+     * @return array
+     */
+    public static function getCustomClaims($email)
+    {
+        $user = static::getByEmail($email);
+        if (! $user) {
+            return [];
+        }
+
+        return [
+            'can_manage_users'   => intval($user->can('manage-user')),
+            'can_manage_records' => intval($user->can('manage-record')),
+            'user_name'          => $user->name,
+        ];
+    }
+
+    /**
      * returns user object, retrieved by email
      *
      * @param $email

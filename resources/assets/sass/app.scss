@@ -1,12 +1,102 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+$color_error: #ee5f5b;
+$color_warning: #f89406;
+$color_success: #62c462;
+$color_invalid: #f2dede;
+
 body {
   padding-top: 70px;
 }
 
-.form-horizontal {
-  .error.ng-binding {
+.alert {
+  .ng-binding {
     white-space: pre-wrap;
-    color: #ee5f5b;
+  }
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+#filter-panel {
+  text-align: center;
+  .form-group {
+    margin-right: 20px;
+  }
+}
+
+input.ng-invalid {
+  background-color: $color_invalid;
+}
+
+.expected-calories {
+  text-align: right;
+  padding-top: 20px;
+  line-height: 25px;
+  padding-bottom: 10px;
+  span {
+    color: $color_warning;
+    font-weight: bold;
+  }
+  &:hover {
+    .fa-pencil {
+      display: inline-block;
+      margin-right: 10px;
+      color: $color_warning;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  }
+  .fa-pencil {
+    display: none;
+  }
+}
+
+.meals-table {
+  table-layout: fixed;
+  .col-time {
+    width: 80px;
+  }
+  .col-calories {
+    width: 100px;
+  }
+  .col-buttons {
+    text-align: right;
+    width: 70px;
+    .fa-pencil {
+      color: $color_warning;
+    }
+    .fa-times {
+      color: $color_error;
+    }
+    .fa {
+      cursor: pointer;
+      margin-right: 10px;
+      display: inline-block;
+      font-size: 16px;
+    }
+  }
+}
+
+.modal {
+  display: block;
+}
+
+.nav-username {
+  margin-right: 15px !important;
+}
+
+.user-change-text {
+  &:hover {
+    .fa-pencil {
+      display: inline-block;
+      margin-left: 10px;
+      color: $color_warning;
+      cursor: pointer;
+    }
+  }
+  .fa-pencil {
+    display: none;
   }
 }

@@ -30,6 +30,22 @@ $I->seeResponseContainsJson([
 ]);
 
 /**
+ * Update current try to check his own roles. Should be 403
+ */
+$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
+$I->sendPUT("/users/{$user1->id}/?token={$user1->token}", [
+    'name'             => 'New name',
+    'email'            => 'new_email@test.com',
+    'calories_per_day' => 8000,
+    'roles'            => [1],
+]);
+$I->seeResponseCodeIs(403);
+$I->seeResponseIsJson();
+$I->haveHttpHeader('Content-Type', 'application/json');
+$I->seeResponseContains('Changing user roles is not allowed');
+
+
+/**
  * Retrieve updated user. All fields should be updated
  */
 

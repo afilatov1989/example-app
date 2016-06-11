@@ -16,21 +16,26 @@ elixir(function (mix) {
 
     mix.styles([
         '../vendor/bootstrap/css/bootstrap.min.css',
+        '../vendor/font-awesome.css',
         '../vendor/loading-bar/loading-bar.min.css',
         'app.css'
     ]);
 
     mix.scripts([
         '../vendor/jquery.min.js',
+        '../vendor/moment.js',
         '../vendor/bootstrap/js/bootstrap.min.js',
         '../vendor/angular.min.js',
         '../vendor/angular-route.min.js',
         '../vendor/ngStorage.js',
         '../vendor/loading-bar/loading-bar.min.js',
         'app.js',
-        'controllers.js',
-        'services.js',
-        'custom.js'
+        'auth-controller.js',
+        'meals-controller.js',
+        'users-controller.js',
+        'auth-service.js',
+        'meals-service.js',
+        'users-service.js'
     ]);
 
     mix.scripts([
@@ -42,4 +47,6 @@ elixir(function (mix) {
         'css/all.css',
         'js/all.js'
     ]);
+
+    mix.copy('resources/assets/fonts', 'public/build/fonts');
 });

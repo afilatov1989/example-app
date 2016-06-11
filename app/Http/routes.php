@@ -17,9 +17,16 @@
 
 $angularSpaAction = 'MainController@spa';
 
-Route::get('/', $angularSpaAction);
+// common users
 Route::get('signin', $angularSpaAction);
 Route::get('signup', $angularSpaAction);
+Route::get('/', $angularSpaAction);
+
+// managers
+Route::get('users', $angularSpaAction);
+
+// admins
+Route::get('user_meals/{user}', $angularSpaAction);
 
 
 /**

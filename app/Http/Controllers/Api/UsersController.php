@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Route;
 use Tymon\JWTAuth\JWTAuth;
 
@@ -106,11 +107,12 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param JWTAuth $auth
      * @param  \Illuminate\Http\Request $request
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function update(Request $request, User $user)
+    public function update(JWTAuth $auth, Request $request, User $user)
     {
         $data = $request->only([
             'name',
@@ -121,6 +123,16 @@ class UsersController extends Controller
         $validator = $this->userUpdateValidator($data);
         if ($validator->fails()) {
             return rest_validator_error_response($validator);
+        }
+
+        // common user tries to change own roles
+        if (! $auth->toUser($auth->getToken())->can('manage-user')
+            && $request->has('roles')
+        ) {
+            return rest_error_response(
+                Response::HTTP_FORBIDDEN,
+                'Changing user roles is not allowed'
+            );
         }
 
         $user->name = $data['name'];

@@ -1,0 +1,108 @@
+<div class="col-lg-10 col-lg-offset-1">
+    <div class="row">
+        <div class="panel panel-primary"
+             id="filter-panel">
+            <form name="filterForm" ng-submit="getMeals()" class="navbar-form"
+                  novalidate>
+                Date:
+                <div class="form-group">
+                    <input ng-model="date_from" type="date"
+                           class="form-control" required>
+                    <input ng-model="date_to" type="date"
+                           class="form-control" required>
+                </div>
+                Time:
+                <div class="form-group">
+                    <input ng-model="time_from" type="time"
+                           class="form-control">
+                    <input ng-model="time_to" type="time"
+                           class="form-control">
+                </div>
+                <button ng-disabled="filterForm.$invalid" type="submit"
+                        class="btn btn-default">Filter
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <h3 class="user-change-text"><span ng-bind="user.name"></span>
+                <i class="fa fa-pencil"
+                   ng-click="updateCurUserFormToggle()"
+                   aria-hidden="true"></i>
+            </h3>
+        </div>
+        <div class="col-lg-5 expected-calories">
+            <i class="fa fa-pencil"
+               ng-click="updateCurUserFormToggle()"
+               aria-hidden="true"></i>
+            Expected calories per day:
+            <span ng-bind="user.calories_per_day"></span>
+        </div>
+    </div>
+    <div class="row" ng-repeat="(date, date_info) in daily_data">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong ng-bind="dateFormat(date)"></strong>
+            </div>
+            <div class="panel-body">
+                <table class="meals-table table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="col-time">Time</th>
+                        <th>Description</th>
+                        <th class="col-calories">Calories</th>
+                        <th class="col-buttons"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="meal in date_info.meals">
+                        <td class="col-time">{{meal.time}}</td>
+                        <td>{{meal.text}}</td>
+                        <td class="col-calories">{{meal.calories}}</td>
+                        <td class="col-buttons">
+                            <i class="fa fa-pencil"
+                               ng-click="updateMealForm(meal)"
+                               aria-hidden="true"></i>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ***************************************************************************
+
+MODAL WINDOW FOR UPDATING A MEAL
+
+**************************************************************************** -->
+
+<div ng-cloak data-ng-show="meal_update_show" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        aria-hidden="true"
+                        ng-click="updateMealFormClose()">&times;</button>
+                <h4 class="modal-title">Update meal</h4>
+            </div>
+            <div class="modal-body">
+                <p ng-bind="current_meal.text"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="updateMealFormClose()">
+                    Cancel
+                </button>
+                <button type="button"
+                        class="btn btn-primary">
+                    Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
