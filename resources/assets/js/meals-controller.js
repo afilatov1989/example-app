@@ -49,6 +49,7 @@
 
                     Meal.getMeals(user_id, data, function (response) {
                         $rootScope.error = '';
+                        $rootScope.page_content_loaded = true;
                         $scope.daily_data = response.data.data.daily_data;
                         $rootScope.user = response.data.data.user;
                     }, $rootScope.errorsFromRequest);

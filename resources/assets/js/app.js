@@ -32,8 +32,8 @@
 
                 $locationProvider.html5Mode(true);
 
-                $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '$rootScope',
-                    function ($q, $location, $localStorage, $rootScope) {
+                $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '$injector',
+                    function ($q, $location, $localStorage, $injector) {
                         return {
                             'request': function (config) {
                                 config.headers = config.headers || {};
@@ -43,12 +43,9 @@
                                 return config;
                             },
                             'responseError': function (response) {
+                                var Auth = $injector.get('Auth');
                                 if (response.status === 401 || response.status === 403) {
-                                    delete $localStorage.token;
-                                    $localStorage.$save();
-                                    $rootScope.token = null;
-                                    $rootScope.tokenClaims = null;
-                                    $location.path('/signin');
+                                    Auth.logout();
                                 }
                                 return $q.reject(response);
                             }
@@ -81,6 +78,9 @@
 
                 $rootScope.$on("$routeChangeStart", function (event, next) {
 
+                    // Show page only if content loaded correctly
+                    $rootScope.page_content_loaded = false;
+                    // Renew errors list for each page
                     $rootScope.error = '';
 
                     if ($localStorage.token == null && next.controller != 'AuthController') {
