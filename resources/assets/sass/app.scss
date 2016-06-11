@@ -37,11 +37,17 @@ input.ng-invalid {
   background-color: $color_invalid;
 }
 
-.expected-calories {
+.expected-calories-container {
   text-align: right;
-  padding-top: 20px;
-  line-height: 25px;
-  padding-bottom: 10px;
+}
+
+.expected-calories {
+  text-align: left;
+  display: inline-block;
+  width: 280px;
+  padding-top: 15px;
+  line-height: 38px;
+  padding-bottom: 5px;
   span {
     color: $color_warning;
     font-weight: bold;
@@ -49,7 +55,7 @@ input.ng-invalid {
   &:hover {
     .fa-pencil {
       display: inline-block;
-      margin-right: 10px;
+      margin-left: 5px;
       color: $color_warning;
       cursor: pointer;
       font-size: 20px;

@@ -27,7 +27,8 @@
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <button ng-disabled="filterForm.$invalid" type="submit"
+                        <button ng-disabled="filterForm.$invalid"
+                                type="submit"
                                 class="btn btn-default">Filter
                         </button>
                     </div>
@@ -38,7 +39,7 @@
     <div class="row">
         <div class="col-lg-1">
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <h3 class="user-change-text">
                 <span ng-bind="meals_owner.name"></span>
                 <i class="fa fa-pencil"
@@ -46,12 +47,16 @@
                    aria-hidden="true"></i>
             </h3>
         </div>
-        <div class="col-lg-4 expected-calories">
-            <i class="fa fa-pencil"
-               ng-click="updateCurUserFormToggle(meals_owner)"
-               aria-hidden="true"></i>
-            Expected calories per day:
-            <span ng-bind="meals_owner.calories_per_day"></span>
+        <div class="col-lg-6 expected-calories-container">
+            <div class="expected-calories">
+                Expected calories per day:
+                <span ng-bind="meals_owner.calories_per_day"></span>
+                <i class="fa fa-pencil"
+                   ng-click="updateCurUserFormToggle(meals_owner)"
+                   aria-hidden="true"></i>
+            </div>
+            <button class="btn btn-success">Create new meal
+            </button>
         </div>
         <div class="col-lg-1">
         </div>

@@ -43,7 +43,8 @@
                         $scope.daily_data = response.data.data.daily_data;
                         $scope.meals_owner = response.data.data.user;
                     });
-                }();
+                };
+                $scope.getMeals();
 
                 /**
                  * UPDATE meal
