@@ -81,6 +81,7 @@
                         data['_method'] = 'PUT';
                         $http.post(appConfig.apiUrl + 'password_reset', data)
                             .success(function (response) {
+                                $rootScope.error = '';
                                 $rootScope.success = response.data.message;
                             })
                             .error($rootScope.errorsFromRequest);

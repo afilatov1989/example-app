@@ -23,6 +23,7 @@
                  * All queries to API should use only this unified handler.
                  */
                 $rootScope.errorsFromRequest = function (response) {
+                    $rootScope.success = '';
                     if (typeof(response.error) === 'undefined') response = response.data;
 
                     $rootScope.error = 'Unknown error';
