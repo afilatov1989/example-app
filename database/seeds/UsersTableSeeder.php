@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder
             ]);
 
             // create meals for users
-            for ($j = 0; $j < rand(3, 10); $j++) {
+            for ($j = 0; $j < rand(20, 100); $j++) {
                 $dateObj = $faker->dateTimeThisMonth();
                 $meal = new Meal([
                     'date'     => $dateObj->format('Y-m-d'),

@@ -110,7 +110,7 @@ class AuthController extends Controller
         ], function ($m) use ($user) {
             $m->from(config('mail.from.address'), config('mail.from.name'));
             $m->to($user->email, $user->name)
-                ->subject('Toptal screening app: reset password');
+                ->subject('Reset password');
         });
 
         return rest_data_response([

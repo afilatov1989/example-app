@@ -6,5 +6,5 @@
     <b>Password:</b> {{ $password }}
 </p>
 <p>
-    You can change your password on your in your account settings.
+    You can change your password in your account settings.
 </p>
