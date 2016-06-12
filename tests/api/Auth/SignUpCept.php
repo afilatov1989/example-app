@@ -50,7 +50,7 @@ $I->sendPOST('/signup', [
 $I->seeResponseCodeIs(409);
 $I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseIsJson();
-$I->seeResponseContains('User already exists');
+$I->seeResponseContains('User with this email already exists');
 
 /**
  * Try to sign up without name
