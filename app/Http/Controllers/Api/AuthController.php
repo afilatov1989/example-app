@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Traits\UsersCRUDValidators;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Mail;
 use Tymon\JWTAuth\JWTAuth;
 use App\Http\Controllers\Controller;
 
@@ -66,7 +67,7 @@ class AuthController extends Controller
         if (User::getByEmail($request->email)) {
             return rest_error_response(
                 Response::HTTP_CONFLICT,
-                'User already exists'
+                'User with this email already exists'
             );
         }
 
@@ -77,6 +78,43 @@ class AuthController extends Controller
         return rest_data_response([
             'token' => $token,
             'user'  => $user->toArray(),
+        ]);
+    }
+
+    public function resetPass(Request $request)
+    {
+        if (! $request->has('email')) {
+            return rest_error_response(
+                Response::HTTP_BAD_REQUEST,
+                'Email is not provided'
+            );
+        }
+
+        $user = User::getByEmail($request->email);
+
+        if (! $user) {
+            return rest_error_response(
+                Response::HTTP_NOT_FOUND,
+                'User with this email is not found'
+            );
+        }
+
+        $faker = \Faker\Factory::create();
+        $new_password = $faker->password(10, 10);
+        $user->password = bcrypt($new_password);
+        $user->save();
+
+        Mail::queue('emails.password_reset', [
+            'email'    => $user->email,
+            'password' => $new_password,
+        ], function ($m) use ($user) {
+            $m->from(config('mail.from.address'), config('mail.from.name'));
+            $m->to($user->email, $user->name)
+                ->subject('Toptal screening app: reset password');
+        });
+
+        return rest_data_response([
+            'message' => 'New credentials were sent to your email',
         ]);
     }
 }

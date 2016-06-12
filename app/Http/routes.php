@@ -20,6 +20,7 @@ $angularSpaAction = 'MainController@spa';
 // common users
 Route::get('signin', $angularSpaAction);
 Route::get('signup', $angularSpaAction);
+Route::get('password_reset', $angularSpaAction);
 Route::get('/', $angularSpaAction);
 
 // managers
@@ -37,6 +38,9 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'Api'], function () {
     // Auth routes
     Route::post('signin', 'AuthController@signIn');
     Route::post('signup', 'AuthController@signUp');
+    Route::match(
+        ['put', 'patch'], 'password_reset', 'AuthController@resetPass'
+    );
 
     // User meals CRUD routes
     Route::get('user_meals/{user}', 'UserMealsController@index');

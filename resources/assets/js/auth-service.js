@@ -77,6 +77,14 @@
                             })
                             .error($rootScope.errorsFromRequest);
                     },
+                    resetPass: function (data) {
+                        data['_method'] = 'PUT';
+                        $http.post(appConfig.apiUrl + 'password_reset', data)
+                            .success(function (response) {
+                                $rootScope.success = response.data.message;
+                            })
+                            .error($rootScope.errorsFromRequest);
+                    },
                     logout: function () {
                         deleteToken();
                         deleteUser();

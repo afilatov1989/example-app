@@ -3,7 +3,6 @@
 $color_error: #ee5f5b;
 $color_warning: #f89406;
 $color_success: #62c462;
-$color_invalid: #f2dede;
 
 body {
   padding-top: 70px;
@@ -31,10 +30,6 @@ body {
       padding-bottom: 5px;
     }
   }
-}
-
-input.ng-invalid {
-  background-color: $color_invalid;
 }
 
 .expected-calories-container {
@@ -122,6 +117,30 @@ input.ng-invalid {
     display: none;
   }
 }
+
+/* =============================================================================
+
+FORMS VALIDATION
+
+============================================================================= */
+
+.form-group {
+  .help-block {
+    display: none;
+  }
+  &.has-error {
+    .help-block {
+      display: block;
+    }
+  }
+}
+
+
+/* =============================================================================
+
+MEDIA QUERIES
+
+============================================================================= */
 
 @media (min-width: 768px) {
   .filter-date-input {

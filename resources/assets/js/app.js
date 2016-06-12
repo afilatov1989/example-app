@@ -19,6 +19,9 @@
                 }).when('/signup', {
                     templateUrl: 'partials/signup.html',
                     controller: 'AuthController'
+                }).when('/password_reset', {
+                    templateUrl: 'partials/password_reset.html',
+                    controller: 'AuthController'
                 }).when('/', {
                     templateUrl: 'partials/meals.html',
                     controller: 'MealsController'
@@ -74,8 +77,9 @@
                     // Show page only if content loaded correctly
                     $rootScope.page_content_loaded = false;
 
-                    // Renew errors list for each page
+                    // Renew messages list for each page
                     $rootScope.error = '';
+                    $rootScope.success = '';
 
                     // Authentication redirects
                     if ($rootScope.token == null && next.controller != 'AuthController') {
