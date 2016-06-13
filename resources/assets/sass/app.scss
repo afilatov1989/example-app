@@ -14,9 +14,52 @@ body {
   }
 }
 
+.modal {
+  display: block;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+/* =============================================================================
+
+USERS PAGE AND NAVIGATION
+
+============================================================================= */
+
+.nav-username {
+  margin-right: 0px !important;
+  cursor: pointer;
+  float: right;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.navbar-nav.navbar-user {
+  margin: 0px -15px;
+}
+
+.user-change-text {
+  &:hover {
+    .fa-pencil {
+      display: inline-block;
+      margin-left: 10px;
+      color: $color_warning;
+      cursor: pointer;
+    }
+  }
+  .fa-pencil {
+    display: none;
+  }
+}
+
+/* =============================================================================
+
+MEALS PAGE
+
+============================================================================= */
 
 #filter-panel {
   text-align: center;
@@ -24,11 +67,12 @@ body {
     width: 100%;
     max-width: 350px;
   }
-  .panel-body {
-    > div {
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
+  .text-danger {
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+  .form-group {
+    vertical-align: top;
   }
 }
 
@@ -61,6 +105,11 @@ body {
   }
 }
 
+.day_total_calories{
+  float: right;
+  display: inline-block;
+}
+
 .meals-table {
   table-layout: fixed;
   .col-time {
@@ -87,35 +136,8 @@ body {
   }
 }
 
-.modal {
-  display: block;
-}
-
-.nav-username {
-  margin-right: 0px !important;
-  cursor: pointer;
-  float: right;
-  &:hover {
-    color: #fff;
-  }
-}
-
-.navbar-nav.navbar-user {
-  margin: 0px -15px;
-}
-
-.user-change-text {
-  &:hover {
-    .fa-pencil {
-      display: inline-block;
-      margin-left: 10px;
-      color: $color_warning;
-      cursor: pointer;
-    }
-  }
-  .fa-pencil {
-    display: none;
-  }
+.delete-meal-modal {
+  top: 15%;
 }
 
 /* =============================================================================
@@ -124,17 +146,18 @@ FORMS VALIDATION
 
 ============================================================================= */
 
-.form-group {
-  .help-block {
-    display: none;
-  }
-  &.has-error {
+form {
+  .form-group {
     .help-block {
-      display: block;
+      display: none;
+    }
+    &.has-error {
+      .help-block {
+        display: block;
+      }
     }
   }
 }
-
 
 /* =============================================================================
 

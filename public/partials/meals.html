@@ -1,45 +1,93 @@
 <div ng-cloak data-ng-show="page_content_loaded">
 
     <div class="row">
-        <form name="filterForm" ng-submit="getMeals()" class="navbar-form"
-              novalidate>
-            <div id="filter-panel"
-                 class="col-lg-10 panel panel-primary col-lg-offset-1">
-                <div class="panel-body">
-                    <div class="col-lg-6">
-                        Date:
-                        <div class="form-group">
-                            <input ng-model="date_from" type="date"
-                                   class="filter-date-input form-control"
-                                   required>
-                            <input ng-model="date_to" type="date"
-                                   class="filter-date-input form-control"
-                                   required>
+        <div class="col-lg-10 col-lg-offset-1">
+            <form name="filterForm" ng-submit="getMeals()"
+                  class="form-inline" role="form"
+                  novalidate>
+                <div id="filter-panel"
+                     class="panel panel-primary">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group" show-errors>
+                                    <label for="date_from"
+                                           class="control-label">Date:</label>
+
+                                    <input ng-model="date_from" type="date"
+                                           title="Date from"
+                                           name="date_from" id="date_from"
+                                           class="filter-date-input form-control"
+                                           required>
+
+                                    <p class="help-block"
+                                       ng-if="filterForm.date_from.$error.date">
+                                        Date is invalid
+                                    </p>
+                                </div>
+                                <div class="form-group" show-errors>
+                                    <label for="date_to"
+                                           class="control-label">to</label>
+
+                                    <input ng-model="date_to" type="date"
+                                           title="Date to" id="date_to"
+                                           name="date_to"
+                                           class="filter-date-input form-control"
+                                           required>
+
+                                    <p class="help-block"
+                                       ng-if="filterForm.date_to.$error.date">
+                                        Date is invalid
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+
+                                <div class="form-group" show-errors>
+                                    <label for="time_from"
+                                           class="control-label">Time:</label>
+
+                                    <input ng-model="time_from" type="time"
+                                           title="Time from"
+                                           id="time_from" name="time_from"
+                                           class="filter-time-input form-control">
+                                    <p class="help-block"
+                                       ng-if="filterForm.time_from.$error.time">
+                                        Time is invalid
+                                    </p>
+                                </div>
+                                <div class="form-group" show-errors>
+                                    <label for="time_to"
+                                           class="control-label">to</label>
+
+                                    <input ng-model="time_to" type="time"
+                                           title="Date to"
+                                           name="time_to" id="time_to"
+                                           class="filter-time-input form-control">
+                                    <p class="help-block"
+                                       ng-if="filterForm.time_to.$error.time">
+                                        Time is invalid
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="submit"
+                                        class="btn btn-default">Filter
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        Time:
-                        <div class="form-group">
-                            <input ng-model="time_from" type="time"
-                                   class="filter-time-input form-control">
-                            <input ng-model="time_to" type="time"
-                                   class="filter-time-input form-control">
+                        <div class="row">
+                            <p class="text-danger" ng-show="filter_errors"
+                               ng-bind="filter_errors">
+                            </p>
                         </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <button ng-disabled="filterForm.$invalid"
-                                type="submit"
-                                class="btn btn-default">Filter
-                        </button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <div class="row">
-        <div class="col-lg-1">
-        </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 col-lg-offset-1">
             <h3 class="user-change-text">
                 <span ng-bind="meals_owner.name"></span>
                 <i class="fa fa-pencil"
@@ -55,17 +103,20 @@
                    ng-click="updateCurUserFormToggle(meals_owner)"
                    aria-hidden="true"></i>
             </div>
-            <button class="btn btn-success">Create new meal
+            <button ng-click="updateMealFormToggle(meal, 'Create new meal')"
+                    class="btn btn-primary">Create new meal
             </button>
-        </div>
-        <div class="col-lg-1">
         </div>
     </div>
     <div class="row" ng-repeat="(date, date_info) in daily_data">
         <div class="col-lg-10 col-lg-offset-1">
-            <div class="panel panel-primary">
+            <div ng-class="(meals_owner.calories_per_day >= date_info.day_calories) ? 'panel-success' : 'panel-danger'"
+                 class="panel">
                 <div class="panel-heading">
                     <strong ng-bind="dateFormat(date)"></strong>
+                    <strong class="day_total_calories">Total:
+                        <span ng-bind="date_info.day_calories"></span>
+                        calories</strong>
                 </div>
                 <div class="panel-body">
                     <table class="meals-table table table-striped">
@@ -79,14 +130,17 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="meal in date_info.meals">
-                            <td class="col-time">{{meal.time}}</td>
+                            <td class="col-time">
+                                {{meal.time}}
+                            </td>
                             <td>{{meal.text}}</td>
                             <td class="col-calories">{{meal.calories}}</td>
                             <td class="col-buttons">
                                 <i class="fa fa-pencil"
-                                   ng-click="updateMealFormToggle(meal)"
+                                   ng-click="updateMealFormToggle(meal, 'Update meal')"
                                    aria-hidden="true"></i>
-                                <i class="fa fa-times" aria-hidden="true"></i>
+                                <i class="fa fa-times" aria-hidden="true"
+                                   ng-click="deleteMealFormToggle(meal)"></i>
                             </td>
                         </tr>
                         </tbody>
@@ -103,17 +157,77 @@ MODAL WINDOW FOR UPDATING A MEAL
 
 **************************************************************************** -->
 
-<div ng-cloak data-ng-show="meal_update_show" class="modal fade in">
+<div ng-cloak data-ng-show="meal_update_show" class="modal modal-open fade in">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close"
                         aria-hidden="true"
                         ng-click="updateMealFormToggle(null)">&times;</button>
-                <h4 class="modal-title">Update meal</h4>
+                <h4 class="modal-title" ng-bind="form_name"></h4>
             </div>
             <div class="modal-body">
-                <p ng-bind="current_meal.text"></p>
+                <div ng-show="modalMealFormErrors"
+                     class="alert alert-danger">
+                    <span ng-bind="modalMealFormErrors"></span>
+                </div>
+
+                <form name="modalMealForm" role="form" novalidate>
+
+                    <input type="hidden" name="id" ng-model="current_meal.id">
+                    <div class="form-group" show-errors>
+                        <label for="meal_form_date">Date</label>
+                        <input ng-model="current_meal.date" type="date"
+                               name="meal_date" id="meal_form_date"
+                               class="form-control"
+                               required>
+                        <p class="help-block"
+                           ng-if="modalMealForm.meal_date.$error.date">
+                            Date is invalid
+                        </p>
+                        <p class="help-block"
+                           ng-if="modalMealForm.meal_date.$error.required">
+                            The date field is required
+                        </p>
+                    </div>
+                    <div class="form-group" show-errors>
+                        <label for="meal_form_time">Time</label>
+                        <input ng-model="current_meal.time" type="time"
+                               name="meal_time" id="meal_form_time"
+                               class="form-control"
+                               required>
+                        <p class="help-block"
+                           ng-if="modalMealForm.meal_time.$error.time">
+                            Time is invalid
+                        </p>
+                        <p class="help-block"
+                           ng-if="modalMealForm.meal_time.$error.required">
+                            The time field is required
+                        </p>
+                    </div>
+                    <div class="form-group" show-errors>
+                        <label for="meal_form_text">Text</label>
+                        <textarea class="form-control" rows="3"
+                                  ng-model="current_meal.text"
+                                  name="meal_text" id="meal_form_text"
+                                  required></textarea>
+                        <p class="help-block"
+                           ng-if="modalMealForm.meal_text.$error.required">
+                            The text field is required
+                        </p>
+                    </div>
+                    <div class="form-group" show-errors>
+                        <label for="meal_form_calories">Calories</label>
+                        <input ng-model="current_meal.calories" type="number"
+                               name="calories" id="meal_form_calories"
+                               class="form-control"
+                               required>
+                        <p class="help-block"
+                           ng-if="modalMealForm.calories.$error.required">
+                            The calories field is required
+                        </p>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button"
@@ -122,9 +236,46 @@ MODAL WINDOW FOR UPDATING A MEAL
                     Cancel
                 </button>
                 <button type="button"
-                        class="btn btn-primary">
+                        class="btn btn-primary"
+                        ng-click="updateOrCreateMeal()">
                     Save changes
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-cloak data-ng-show="meal_delete_show"
+     class="delete-meal-modal modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        aria-hidden="true"
+                        ng-click="deleteMealFormToggle(null)">&times;</button>
+                <h4 class="modal-title">Are you sure?</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-show="modalMealFormErrors"
+                     class="alert alert-danger">
+                    <span ng-bind="modalDeleteMealErrors"></span>
+                </div>
+                <p>
+                    The meal will be deleted permanently.<br/>
+                    You will not be able to recover it.
+                </p>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="deleteMealFormToggle()">
+                        Cancel
+                    </button>
+                    <button type="button"
+                            class="btn btn-danger"
+                            ng-click="deleteMeal(current_meal)">
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
     </div>

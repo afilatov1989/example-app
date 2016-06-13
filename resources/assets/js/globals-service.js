@@ -76,6 +76,10 @@
                 scope.$on('show-errors-check-validity', function () {
                     el.toggleClass('has-error', formCtrl[inputName].$invalid);
                 });
+
+                scope.$on('flush-all-validation-errors', function () {
+                    el.removeClass('has-error');
+                });
             }
         }
     });

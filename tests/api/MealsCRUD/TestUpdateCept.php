@@ -31,7 +31,7 @@ $I->seeResponseContains('"id": ' . $meal->id . '');
  * Try to update a meal which does not exist. Should be 404
  */
 $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
-$I->sendPUT("/user_meals/{$user->id}/555/?token={$user->token}", [
+$I->sendPUT("/user_meals/{$user->id}/1000000/?token={$user->token}", [
     'date'     => '2016-05-06',
     'time'     => '15:50',
     'text'     => 'New text of meal. Check it by this phrase.',

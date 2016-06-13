@@ -56,7 +56,7 @@ class UsersTableSeeder extends Seeder
                     'date'     => $dateObj->format('Y-m-d'),
                     'time'     => $dateObj->format('H:s'),
                     'text'     => $faker->text(100),
-                    'calories' => rand(100, 2500),
+                    'calories' => rand(1000, 2500),
                 ]);
                 $user->meals()->save($meal);
             }

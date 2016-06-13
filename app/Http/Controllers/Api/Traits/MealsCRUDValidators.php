@@ -34,8 +34,8 @@ trait MealsCRUDValidators
         return Validator::make($data, [
             'date'     => 'required|date_format:Y-m-d|regex:/\d{4}-\d{2}-\d{2}/',
             'time'     => 'required|date_format:H:i|regex:/\d{2}:\d{2}/',
-            'text'     => 'required|min:6',
-            'calories' => 'required|integer|min:0',
+            'text'     => 'required|min:6|max:10000',
+            'calories' => 'required|integer|min:0|max:100000',
         ]);
     }
 

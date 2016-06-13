@@ -79,7 +79,7 @@ $I->seeResponseContains('The token could not be parsed from the request');
  */
 
 $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
-$I->sendGET("/user_meals/555/", [
+$I->sendGET("/user_meals/1000000/", [
     'token'     => $admin->token,
     'date-from' => '2016-06-06',
     'date-to'   => '2016-06-07',

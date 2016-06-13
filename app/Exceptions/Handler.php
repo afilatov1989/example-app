@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Route;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -50,15 +51,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($e instanceof ModelNotFoundException) {
-            return rest_error_response(404, 'Resource not found');
-        }
+        if (Route::getCurrentRequest() && Route::getCurrentRequest()->is('api/v1/*')) {
 
-        if ($this->isHttpException($e) ||
-            $e instanceof TokenInvalidException ||
-            $e instanceof TokenExpiredException ||
-            $e instanceof JWTException
-        ) {
+            if ($e instanceof ModelNotFoundException) {
+                return rest_error_response(404, 'Resource not found');
+            }
 
             $code = $e->getStatusCode();
             $message = $e->getMessage();
