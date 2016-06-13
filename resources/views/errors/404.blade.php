@@ -18,7 +18,7 @@
                     </p>
                     <p><b>Or you could just press this neat little button:</b>
                     </p>
-                    <a href="/signin" class="btn btn-large btn-info"><i
+                    <a href="/" class="btn btn-large btn-info"><i
                                 class="icon-home icon-white"></i> Take Me
                         Home</a>
                 </div>

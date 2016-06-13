@@ -6,15 +6,12 @@ $user1 = $I->getUserByEmail('user1@test.com');
 /**
  * Correct authentication
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST('/signin', [
     'email'    => 'user1@test.com',
     'password' => 'qwerty123',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
 $I->seeResponseContainsJson([
     'data' => [
@@ -35,6 +32,5 @@ $I->sendPOST('/signin', [
     'password' => 'qwerty',
 ]);
 $I->seeResponseCodeIs(401);
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseIsJson();
 $I->seeResponseContains('Invalid credentials');

@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 function rest_data_response(array $data)
 {
     return response()->json([
-        'data' => $data
+        'data' => $data,
     ])->setJsonOptions(JSON_PRETTY_PRINT);
 }
 

@@ -10,7 +10,6 @@ $manager = $I->getUserByEmail('manager@test.com');
 /**
  * Creates user with 1 role for further updates.
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST("/users/?token={$manager->token}", [
     'name'             => 'John Smith',
     'email'            => 'new_user@test.com',
@@ -23,7 +22,6 @@ $user = User::find($I->grabDataFromResponseByJsonPath('data.id')[0]);
 /**
  * Update using manager's token. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/{$user->id}/?token={$manager->token}", [
     'name'             => 'New name2',
     'email'            => 'new_email2@test.com',
@@ -32,7 +30,6 @@ $I->sendPUT("/users/{$user->id}/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'name'             => 'New name2',
@@ -50,7 +47,6 @@ $I->sendGET("/users/{$user->id}/", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'id'               => $user->id,

@@ -11,7 +11,6 @@ $meal = $I->createNewMealByUser($user1);
 /**
  * Try to update a meal with another user's token. Should be prohibited
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}/?token={$user2->token}", [
     'date'     => '2016-05-06',
     'time'     => '15:50',
@@ -20,13 +19,11 @@ $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}/?token={$user2->token}", [
 ]);
 $I->seeResponseCodeIs(403);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('Access denied');
 
 /**
  * Try to update a meal of 'user1' with admin's token. Should be OK
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}/?token={$admin->token}", [
     'date'     => '2016-05-06',
     'time'     => '15:50',
@@ -35,7 +32,6 @@ $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}/?token={$admin->token}", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('"date": "2016-05-06"');
 $I->seeResponseContains('"time": "15:50"');
 $I->seeResponseContains('"text": "New text of meal. Check it by this phrase."');
@@ -46,7 +42,6 @@ $I->seeResponseContains('"id": ' . $meal->id . '');
 /**
  * Try to update a meal without a token (both put and patch methods)
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}", [
     'date'     => '2016-04-06',
     'time'     => '13:30',
@@ -55,7 +50,6 @@ $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The token could not be parsed from the request');
 
 $I->sendPATCH("/user_meals/{$user1->id}/{$meal->id}", [
@@ -66,14 +60,12 @@ $I->sendPATCH("/user_meals/{$user1->id}/{$meal->id}", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The token could not be parsed from the request');
 
 
 /**
  * Try to update a meal with invalid token (both put and patch methods)
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}/?token=123123123", [
     'date'     => '2016-04-06',
     'time'     => '13:30',
@@ -82,7 +74,6 @@ $I->sendPUT("/user_meals/{$user1->id}/{$meal->id}/?token=123123123", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The token could not be parsed from the request');
 
 $I->sendPATCH("/user_meals/{$user1->id}/{$meal->id}/?token=123123123555", [
@@ -93,5 +84,4 @@ $I->sendPATCH("/user_meals/{$user1->id}/{$meal->id}/?token=123123123555", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The token could not be parsed from the request');

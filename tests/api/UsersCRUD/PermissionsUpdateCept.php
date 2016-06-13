@@ -11,7 +11,6 @@ $admin = $I->getUserByEmail('admin@test.com');
 /**
  * Update current user. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/{$user1->id}/?token={$user1->token}", [
     'name'             => 'New name',
     'email'            => 'new_email@test.com',
@@ -19,7 +18,6 @@ $I->sendPUT("/users/{$user1->id}/?token={$user1->token}", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'name'             => 'New name',
@@ -32,7 +30,6 @@ $I->seeResponseContainsJson([
 /**
  * Update current try to check his own roles. Should be 403
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/{$user1->id}/?token={$user1->token}", [
     'name'             => 'New name',
     'email'            => 'new_email@test.com',
@@ -41,21 +38,17 @@ $I->sendPUT("/users/{$user1->id}/?token={$user1->token}", [
 ]);
 $I->seeResponseCodeIs(403);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('Changing user roles is not allowed');
 
 
 /**
  * Retrieve updated user. All fields should be updated
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/{$user1->id}/", [
     'token' => $user1->token,
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'id'               => $user1->id,
@@ -68,7 +61,6 @@ $I->seeResponseContainsJson([
 /**
  * Update using manager's token. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/{$user1->id}/?token={$manager->token}", [
     'name'             => 'New name2',
     'email'            => 'new_email2@test.com',
@@ -76,7 +68,6 @@ $I->sendPUT("/users/{$user1->id}/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'name'             => 'New name2',
@@ -89,7 +80,6 @@ $I->seeResponseContainsJson([
 /**
  * Update using admin's token. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/{$user1->id}/?token={$admin->token}", [
     'name'             => 'New name3',
     'email'            => 'new_email3@test.com',
@@ -97,7 +87,6 @@ $I->sendPUT("/users/{$user1->id}/?token={$admin->token}", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'name'             => 'New name3',
@@ -110,14 +99,11 @@ $I->seeResponseContainsJson([
 /**
  * Retrieve updated user. All fields should be updated
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/{$user1->id}/", [
     'token' => $user1->token,
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'id'               => $user1->id,

@@ -11,13 +11,11 @@ $admin = $I->getUserByEmail('admin@test.com');
 /**
  * Retrieve current user. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/{$user1->id}/", [
     'token' => $user1->token,
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'id'               => $user1->id,
@@ -30,25 +28,21 @@ $I->seeResponseContainsJson([
 /**
  * Retrieve another user. Should be prohibited (403)
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/{$user1->id}/", [
     'token' => $user2->token,
 ]);
 $I->seeResponseCodeIs(403);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('Access denied');
 
 /**
  * Retrieve current user with admin's token. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/{$user1->id}/", [
     'token' => $admin->token,
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'id'               => $user1->id,
@@ -61,13 +55,11 @@ $I->seeResponseContainsJson([
 /**
  * Retrieve current user with manager's token. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/{$user1->id}/", [
     'token' => $manager->token,
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'id'               => $user1->id,
@@ -81,12 +73,9 @@ $I->seeResponseContainsJson([
 /**
  * Retrieve not existing user. Should be 404
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/666/", [
     'token' => $manager->token,
 ]);
 $I->seeResponseCodeIs(404);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('not found');
-

@@ -11,31 +11,25 @@ $admin = $I->getUserByEmail('admin@test.com');
 /**
  * Common user tries to delete himself. Should be prohibited (403)
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendDELETE("/users/{$user1->id}/?token={$user1->token}", []);
 $I->seeResponseCodeIs(403);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('Access denied');
 
 /**
  * Common user tries to delete another user. Should be prohibited (403)
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendDELETE("/users/{$user2->id}/?token={$user1->token}", []);
 $I->seeResponseCodeIs(403);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('Access denied');
 
 /**
  * Manager tries to delete a user. Should be OK
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendDELETE("/users/{$user2->id}/?token={$manager->token}", []);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJSON([
     'data' => [
         'message' => 'User successfully deleted',
@@ -46,11 +40,9 @@ $I->seeResponseContainsJSON([
 /**
  * Retrieve deleted user. Should be 404
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/users/{$user2->id}/", [
     'token' => $manager->token,
 ]);
 $I->seeResponseCodeIs(404);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('not found');

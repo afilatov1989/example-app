@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if (Route::getCurrentRequest() && Route::getCurrentRequest()->is('api/v1/*')) {
+        if (Route::getCurrentRequest() && Route::getCurrentRequest()->is('api/*')) {
 
             if ($e instanceof ModelNotFoundException) {
                 return rest_error_response(404, 'Resource not found');

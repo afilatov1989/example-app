@@ -10,7 +10,6 @@ unset($user_data['token']);
 /**
  * Retrieve meals of empty user. Should return 200 with empty data
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/user_meals/{$user->id}/", [
     'token'     => $user->token,
     'date-from' => '2016-04-06',
@@ -20,7 +19,6 @@ $I->sendGET("/user_meals/{$user->id}/", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'user'       => $user_data,
@@ -51,8 +49,6 @@ $meal2 = $I->createNewMealByUser(
  * Date filter should show only 2nd meal
  * But 'day_calories' should be equal to the sum of both meals
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendGET("/user_meals/{$user->id}/", [
     'token'     => $user->token,
     'date-from' => '2016-06-06',
@@ -62,7 +58,6 @@ $I->sendGET("/user_meals/{$user->id}/", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'user'       => $user_data,

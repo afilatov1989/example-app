@@ -10,7 +10,6 @@ $manager = $I->getUserByEmail('manager@test.com');
 /**
  * Manager creates user with roles. Should be ok.
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST("/users/?token={$manager->token}", [
     'name'             => 'John Smith',
     'email'            => 'new_user@test.com',
@@ -20,7 +19,6 @@ $I->sendPOST("/users/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $user = User::find($I->grabDataFromResponseByJsonPath('data.id')[0]);
 
 /**
@@ -31,7 +29,6 @@ $I->sendGET("/users/{$user->id}/", [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'id'               => $user->id,
@@ -53,7 +50,6 @@ $I->seeResponseContainsJson([
 /**
  * Manager tries to create user without name
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST("/users/?token={$manager->token}", [
     'email'            => 'new_user@test.com',
     'password'         => 'qwerty123',
@@ -61,14 +57,11 @@ $I->sendPOST("/users/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The name field is required');
 
 /**
  * Manager tries to create user with invalid email
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST("/users/?token={$manager->token}", [
     'name'             => 'John Smith',
     'email'            => 'new_user',
@@ -77,14 +70,11 @@ $I->sendPOST("/users/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The email must be a valid');
 
 /**
  * Manager tries to create user without password
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST("/users/?token={$manager->token}", [
     'name'             => 'John Smith',
     'email'            => 'new_user@mail.com',
@@ -92,14 +82,11 @@ $I->sendPOST("/users/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The password field is required');
 
 /**
  * Password is too short
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST("/users/?token={$manager->token}", [
     'name'             => 'John Smith',
     'email'            => 'new_user@mail.com',
@@ -108,14 +95,11 @@ $I->sendPOST("/users/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The password must be at least');
 
 /**
  * Calories not integer
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST("/users/?token={$manager->token}", [
     'name'             => 'John Smith',
     'email'            => 'new_user@mail.com',
@@ -124,7 +108,4 @@ $I->sendPOST("/users/?token={$manager->token}", [
 ]);
 $I->seeResponseCodeIs(400);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContains('The calories per day must be an integer');
-
-

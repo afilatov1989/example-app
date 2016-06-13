@@ -11,13 +11,11 @@ $admin = $I->getUserByEmail('admin@test.com');
 /**
  * Change password to current user. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/change_password/{$user1->id}/?token={$user1->token}", [
     'password' => 'new_pass1',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'message' => 'Password successfully changed',
@@ -28,15 +26,12 @@ $I->seeResponseContainsJson([
 /**
  * Sign In with new password. Should be ok
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST('/signin', [
     'email'    => 'user1@test.com',
     'password' => 'new_pass1',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
 
 /**
@@ -48,7 +43,6 @@ $I->sendPOST('/signin', [
     'password' => 'qwerty123',
 ]);
 $I->seeResponseCodeIs(401);
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseIsJson();
 $I->seeResponseContains('Invalid credentials');
 
@@ -56,13 +50,11 @@ $I->seeResponseContains('Invalid credentials');
 /**
  * Change password using manager's token. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/change_password/{$user1->id}/?token={$manager->token}", [
     'password' => 'new_pass2',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'message' => 'Password successfully changed',
@@ -73,28 +65,23 @@ $I->seeResponseContainsJson([
 /**
  * Sign In with new password. Should be ok
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST('/signin', [
     'email'    => 'user1@test.com',
     'password' => 'new_pass2',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
 
 
 /**
  * Change password using admin's token. Should be ok
  */
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPUT("/users/change_password/{$user1->id}/?token={$admin->token}", [
     'password' => 'new_pass3',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsJson([
     'data' => [
         'message' => 'Password successfully changed',
@@ -105,14 +92,11 @@ $I->seeResponseContainsJson([
 /**
  * Sign In with new password. Should be ok
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST('/signin', [
     'email'    => 'user1@test.com',
     'password' => 'new_pass3',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
 

@@ -6,8 +6,6 @@ $I->wantTo('check new user registration via /api/v1/signup');
 /**
  * Correct registration
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST('/signup', [
     'name'     => 'John Smith',
     'email'    => 'davert@codeception.com',
@@ -15,7 +13,6 @@ $I->sendPOST('/signup', [
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
 $I->seeResponseContainsJson([
     'data' => [
@@ -27,15 +24,12 @@ $I->seeResponseContainsJson([
 /**
  * Sign In created user. Should be OK
  */
-
-$I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
 $I->sendPOST('/signin', [
     'email'    => 'davert@codeception.com',
     'password' => 'qwerty123',
 ]);
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseContainsToken();
 
 /**
@@ -48,7 +42,6 @@ $I->sendPOST('/signup', [
     'password' => 'qwerty123',
 ]);
 $I->seeResponseCodeIs(409);
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseIsJson();
 $I->seeResponseContains('User with this email already exists');
 
@@ -61,7 +54,6 @@ $I->sendPOST('/signup', [
     'password' => 'qwerty123',
 ]);
 $I->seeResponseCodeIs(400);
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseIsJson();
 $I->seeResponseContains('The name field is required');
 
@@ -75,7 +67,6 @@ $I->sendPOST('/signup', [
     'password' => 'qwerty123',
 ]);
 $I->seeResponseCodeIs(400);
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseIsJson();
 $I->seeResponseContains('The email must be a valid');
 
@@ -89,6 +80,5 @@ $I->sendPOST('/signup', [
     'password' => 'qw',
 ]);
 $I->seeResponseCodeIs(400);
-$I->haveHttpHeader('Content-Type', 'application/json');
 $I->seeResponseIsJson();
 $I->seeResponseContains('password must be at least');
