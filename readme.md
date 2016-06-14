@@ -34,9 +34,9 @@ There are 3 groups of methods in the API:
 
 All parameters are required, unless explicity mentioned that some parameter is **optional**.
 
-### Authentication methods
+##Authentication methods
 
-####1. Sign In
+###1. Sign In
 **uri**: /api/v1/signin
 
 **method**: POST
@@ -61,7 +61,7 @@ All parameters are required, unless explicity mentioned that some parameter is *
     }
     }
 
-####2. Sign Up
+###2. Sign Up
 
 **uri**: /api/v1/signup
 
@@ -88,7 +88,7 @@ All parameters are required, unless explicity mentioned that some parameter is *
     }
     }
 
-####3. Password reset
+###3. Password reset
 **uri**: /api/v1/password_reset
 
 **method**: PUT | PATCH
@@ -105,12 +105,12 @@ All parameters are required, unless explicity mentioned that some parameter is *
     }
     }
 
-### Meals CRUD methods
+## Meals CRUD methods
 
 All meals crud methods require token. 
 It can be passed in the get parameter **token** or via HTTP-header **Authentication**.
 
-####1. Create a meal
+###1. Create a meal
 **uri**: /api/v1/user_meals/{user_id}/
 
 **method**: POST
@@ -135,7 +135,7 @@ It can be passed in the get parameter **token** or via HTTP-header **Authenticat
     }
     }
 
-####2. Get user's meals list
+###2. Get user's meals list
 **uri**: /api/v1/user_meals/{user_id}/
 
 **method**: GET
@@ -188,7 +188,7 @@ It can be passed in the get parameter **token** or via HTTP-header **Authenticat
     }
     }
 
-####3. Update a meal
+###3. Update a meal
 **uri**: /api/v1/user_meals/{user_id}/{meal_id}/
 
 **method**: PUT | PATCH
@@ -213,7 +213,7 @@ It can be passed in the get parameter **token** or via HTTP-header **Authenticat
     }
     }
 
-####4. Delete a meal
+###4. Delete a meal
 **uri**: /api/v1/user_meals/{user_id}/{meal_id}/
 
 **method**: DELETE
@@ -232,12 +232,13 @@ no params
     }
 
 
-### Users CRUD methods
+##Users CRUD methods
+
 
 All users crud methods require token. 
 It can be passed in the get parameter **token** or via HTTP-header **Authentication**.
 
-####1. Create a user
+###1. Create a user
 **uri**: /api/v1/users/
 
 **method**: POST
@@ -260,7 +261,7 @@ It can be passed in the get parameter **token** or via HTTP-header **Authenticat
     }
     }
 
-####2. Get list of users
+###2. Get list of users
 
 Name and email parameters filter user by name and email.
 Page parameter provides pagination. Every page contains 10 users.
@@ -303,7 +304,7 @@ Page parameter provides pagination. Every page contains 10 users.
     }
     }
 
-####3. Get user by ID
+###3. Get user by ID
 **uri**: /api/v1/users/{user_id}/
 
 **method**: GET
@@ -331,7 +332,7 @@ Page parameter provides pagination. Every page contains 10 users.
     }
     }
 
-####4. Update a user
+###4. Update a user
 **uri**: /api/v1/users/{user_id}/
 
 **method**: PUT | PATCH
@@ -353,7 +354,7 @@ Page parameter provides pagination. Every page contains 10 users.
     }
     }
 
-####5. Delete a user
+###5. Delete a user
 **uri**: /api/v1/users/{user_id}/
 
 **method**: DELETE
@@ -372,7 +373,7 @@ no params
     }
 
 
-####6. Change user password
+###6. Change user password
 **uri**: /api/v1/users/change_password/{user_id}/
 
 **method**: PUT | PATCH
