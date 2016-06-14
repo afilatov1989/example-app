@@ -42,6 +42,22 @@
                 };
 
                 /**
+                 * Returns an array of object keys
+                 *
+                 * EX:
+                 * arrayKeys({"one":1, "two":2, "three":3});
+                 * returns ["one","two","three"]
+                 */
+                $rootScope.arrayKeys = function (input) {
+                    var output = [];
+                    var counter = 0;
+                    for (var i in input) {
+                        output[counter++] = i;
+                    }
+                    return output;
+                };
+
+                /**
                  * MUST be empty.
                  * Service only for global vars and functions.
                  * Never injected

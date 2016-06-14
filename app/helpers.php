@@ -14,8 +14,10 @@ function rest_error_response($code, $message, array $errors = [])
 {
     $response = [
         'error' => [
-            'code'    => $code,
-            'message' => $message,
+            'code'   => $code,
+            'errors' => [
+                $message,
+            ]
         ]
     ];
 

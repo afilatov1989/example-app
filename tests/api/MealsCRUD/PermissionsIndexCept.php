@@ -78,4 +78,4 @@ $I->sendGET("/user_meals/1000000/", [
 ]);
 $I->seeResponseCodeIs(404);
 $I->seeResponseIsJson();
-$I->seeResponseContains('"message": "Resource not found"');
+$I->seeResponseContains('"Resource not found"');

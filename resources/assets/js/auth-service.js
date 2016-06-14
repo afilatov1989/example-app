@@ -97,6 +97,10 @@
                     },
                     loadUserToRootScope: function () {
                         $rootScope.current_user = $localStorage.current_user;
+                    },
+                    updateCurrentUser: function (user) {
+                        $rootScope.current_user = user;
+                        $localStorage.current_user = user;
                     }
                 };
             }

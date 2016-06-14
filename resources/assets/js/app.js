@@ -7,7 +7,9 @@
             'angular-loading-bar'
         ])
         .constant('appConfig', {
-            apiUrl: '/api/v1/'
+            apiUrl: '/api/v1/',
+            adminRoleID: 1,
+            managerRoleID: 2
         })
         .config(['$routeProvider', '$httpProvider', '$locationProvider',
             function ($routeProvider, $httpProvider, $locationProvider) {
@@ -74,8 +76,13 @@
 
                 $rootScope.$on("$routeChangeStart", function (event, next) {
 
-                    // Show page only if content loaded correctly
+                    // Show page only if content loaded correctly. Close all modal windows
                     $rootScope.page_content_loaded = false;
+                    $rootScope.cur_user_update_show = false;
+                    $rootScope.modal_back_show = false;
+
+                    // Clear all global page variables
+                    $rootScope.meals_owner = null;
 
                     // Renew messages list for each page
                     $rootScope.error = '';

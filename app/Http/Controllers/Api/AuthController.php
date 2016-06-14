@@ -35,9 +35,13 @@ class AuthController extends Controller
             );
         }
 
+        $user = User::getByEmail($request->email);
+        $user_data = $user->toArray();
+        $user_data['roles'] = $user->roles->toArray();
+
         return rest_data_response([
             'token' => $token,
-            'user'  => User::getByEmail($request->email)->toArray(),
+            'user'  => $user_data,
         ]);
     }
 
@@ -73,11 +77,13 @@ class AuthController extends Controller
 
         $custom_claims = User::getCustomClaims($request->email);
         $user = User::create($data);
+        $user_data = $user->toArray();
+        $user_data['roles'] = $user->roles->toArray();
         $token = $auth->fromUser($user, $custom_claims);
 
         return rest_data_response([
             'token' => $token,
-            'user'  => $user->toArray(),
+            'user'  => $user_data,
         ]);
     }
 

@@ -2,13 +2,17 @@
     'use strict';
 
     angular.module('app')
-        .controller('MealsController', ['$rootScope', '$scope', '$location', 'Meal', 'Auth', '$routeParams',
-            function ($rootScope, $scope, $location, Meal, Auth, $routeParams) {
+        .controller('MealsController', ['$rootScope', '$scope', '$location', 'Meal', 'Auth', 'User', '$routeParams',
+            function ($rootScope, $scope, $location, Meal, Auth, User, $routeParams) {
 
                 /* Get user_id from route parameter
                  or get current user if user_id is not provided */
                 var user_id = $rootScope.current_user.id;
-                if (typeof($routeParams.user) !== 'undefined') user_id = $routeParams.user;
+                var path = '/';
+                if (typeof($routeParams.user) !== 'undefined') {
+                    user_id = $routeParams.user;
+                    path = '/user_meals/' + user_id;
+                }
 
                 /**
                  * =============================================================
@@ -18,16 +22,13 @@
                  * =============================================================
                  */
 
-                /* Set filter initial values */
-                $scope.date_from = new Date();
-                $scope.date_from.setDate($scope.date_from.getDate() - 7);
-                $scope.date_to = new Date();
-                $scope.time_from = null;
-                $scope.time_to = null;
-
                 /**
                  * Loads Meals from REST API to scope
                  */
+                /* Set filter initial values */
+                $scope.date_from = new Date(moment().subtract(7, 'd'));
+                $scope.date_to = new Date(moment());
+
                 $scope.getMeals = function () {
                     $scope.filter_errors = '';
                     $scope.$broadcast('show-errors-check-validity');
@@ -36,25 +37,24 @@
                         return;
                     }
 
+                    // Default values for REST API
                     var data = {
-                        "date-from": ($scope.date_from !== null) ?
-                            moment($scope.date_from).format('YYYY-MM-DD') : '',
-
-                        "date-to": ($scope.date_to !== null) ?
-                            moment($scope.date_to).format('YYYY-MM-DD') : '',
-
-                        "time-from": ($scope.time_from !== null) ?
-                            moment($scope.time_from).format('HH:mm') : '00:00',
-
-                        "time-to": ($scope.time_to !== null) ?
-                            moment($scope.time_to).format('HH:mm') : '23:59'
+                        "date-from": moment().subtract(7, 'd').format('YYYY-MM-DD'),
+                        "date-to": moment().format('YYYY-MM-DD'),
+                        "time-from": '00:00',
+                        "time-to": '23:59'
                     };
+
+                    if ($scope.date_from) data['date-from'] = moment($scope.date_from).format('YYYY-MM-DD');
+                    if ($scope.date_to) data['date-to'] = moment($scope.date_to).format('YYYY-MM-DD');
+                    if ($scope.time_from) data['time-from'] = moment($scope.time_from).format('HH:mm');
+                    if ($scope.time_to) data['time-to'] = moment($scope.time_to).format('HH:mm');
 
                     Meal.getMeals(user_id, data, function (response) {
                         $rootScope.error = '';
                         $rootScope.page_content_loaded = true;
                         $scope.daily_data = response.data.data.daily_data;
-                        $scope.meals_owner = response.data.data.user;
+                        $rootScope.meals_owner = response.data.data.user;
                     }, function (response) {
                         $scope.filter_errors = response.data.error.errors.join('\n');
                     });
@@ -146,5 +146,6 @@
                 };
 
 
-            }]);
+            }
+        ]);
 })();

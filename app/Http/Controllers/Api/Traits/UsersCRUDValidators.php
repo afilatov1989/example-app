@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Traits;
 
+use App\User;
 use Validator;
 
 trait UsersCRUDValidators
@@ -45,13 +46,14 @@ trait UsersCRUDValidators
      * Get a validator for an incoming user update request.
      *
      * @param  array $data
+     * @param User $user
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function userUpdateValidator(array $data)
+    protected function userUpdateValidator(array $data, User $user)
     {
         return Validator::make($data, [
             'name'             => 'required|max:255|min:4',
-            'email'            => 'required|email|max:255',
+            'email'            => 'required|email|max:255|unique:users,email,' . $user->id,
             'calories_per_day' => 'required|integer|min:0',
             'roles'            => 'array',
             'roles.*'          => 'integer|exists:roles,id',

@@ -99,41 +99,188 @@
 
     <!-- ***************************************************************************
 
-    MODAL WINDOW FOR UPDATING CURRENT USER
+    MODAL WINDOW FOR UPDATING ANY USER
 
     **************************************************************************** -->
 
-    <div data-ng-controller="AuthController">
-        <div ng-cloak data-ng-show="cur_user_update_show" class="modal fade in">
+    <div>
+        <div ng-cloak data-ng-show="cur_user_update_show"
+             class="modal modal-open fade in">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="close_wrapper">
                         <button type="button" class="close"
                                 aria-hidden="true"
                                 ng-click="updateCurUserFormToggle()">&times;</button>
-                        <h4 class="modal-title">Account settings</h4>
                     </div>
                     <div class="modal-body">
-                        <p ng-bind="updating_user.name"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button"
-                                class="btn btn-default"
-                                ng-click="updateCurUserFormToggle()">
-                            Cancel
-                        </button>
-                        <button type="button"
-                                class="btn btn-primary">
-                            Save changes
-                        </button>
+                        <form name="modalUserForm" role="form" novalidate
+                              class="form-horizontal">
+                            <fieldset>
+                                <legend>User information</legend>
+
+                                <input type="hidden" name="id"
+                                       ng-model="updating_user.id">
+
+                                <div class="form-group" show-errors>
+                                    <label class="col-lg-2 control-label"
+                                           for="user_form_name">Name</label>
+                                    <div class="col-lg-10">
+                                        <input ng-model="updating_user.name"
+                                               type="text"
+                                               name="user_form_name"
+                                               id="user_form_name"
+                                               class="form-control"
+                                               required>
+                                        <p class="help-block"
+                                           ng-if="modalUserForm.user_form_name.$error.required">
+                                            The name field is required
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" show-errors>
+                                    <label class="col-lg-2 control-label"
+                                           for="user_form_email">Email</label>
+                                    <div class="col-lg-10">
+                                        <input ng-model="updating_user.email"
+                                               type="email"
+                                               name="user_form_email"
+                                               id="user_form_email"
+                                               class="form-control"
+                                               required>
+                                        <p class="help-block"
+                                           ng-if="modalUserForm.user_form_email.$error.required">
+                                            The email field is required
+                                        </p>
+                                        <p class="help-block"
+                                           ng-if="modalUserForm.user_form_email.$error.email">
+                                            Email is invalid
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" show-errors>
+                                    <label class="col-lg-2 control-label"
+                                           for="user_form_calories_per_day">
+                                        Calories day limit
+                                    </label>
+                                    <div class="col-lg-10">
+                                        <input ng-model="updating_user.calories_per_day"
+                                               type="number"
+                                               name="user_form_calories_per_day"
+                                               id="user_form_calories_per_day"
+                                               class="form-control"
+                                               required>
+                                        <p class="help-block"
+                                           ng-if="modalUserForm.user_form_calories_per_day.$error.required">
+                                            The name field is required
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div ng-show="updating_user.id == null"
+                                     class="form-group">
+                                    <label class="col-lg-2 control-label"
+                                           for="user_form_password">Password</label>
+                                    <div class="col-lg-10">
+                                        <input type="password"
+                                               ng-model="updating_user.password"
+                                               name="user_form_password"
+                                               id="user_form_password"
+                                               class="form-control">
+                                    </div>
+                                </div>
+
+                                <div ng-cloak
+                                     ng-show="tokenClaims.can_manage_users"
+                                     class="form-group">
+                                    <label class="col-lg-2 control-label">Roles</label>
+                                    <div class="col-lg-10">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input ng-model="updating_user.is_admin"
+                                                       type="checkbox">
+                                                Admin
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input ng-model="updating_user.is_manager"
+                                                       type="checkbox">
+                                                User Manager
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-9 modal-form-message">
+                                        <p ng-show="modalUserFormSuccess"
+                                           ng-bind="modalUserFormSuccess"
+                                           class="text-success">
+                                        </p>
+
+                                        <p ng-show="modalUserFormErrors"
+                                           ng-bind="modalUserFormErrors"
+                                           class="text-danger">
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button type="submit"
+                                                class="btn btn-primary"
+                                                ng-click="updateOrCreateUser()">
+                                            Save changes
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <form ng-show="updating_user.id > 0"
+                              name="modalPasswordForm" role="form" novalidate
+                              class="form-horizontal">
+                            <fieldset>
+                                <legend>Change password</legend>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label"
+                                           for="user_password">Password</label>
+                                    <div class="col-lg-10">
+                                        <input ng-model="change_password_input"
+                                               type="password"
+                                               name="user_password"
+                                               id="user_password"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-9 modal-form-message">
+                                        <p ng-show="modalPasswordFormSuccess"
+                                           ng-bind="modalPasswordFormSuccess"
+                                           class="text-success">
+                                        </p>
+
+                                        <p ng-show="modalPasswordFormErrors"
+                                           ng-bind="modalPasswordFormErrors"
+                                           class="text-danger">
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button type="submit"
+                                                class="btn btn-primary"
+                                                ng-click="changeUserPassword()">
+                                            Save changes
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div ng-cloak data-ng-show="modal_back_show"
-             class="modal-backdrop fade in">
-        </div>
+    <div ng-cloak data-ng-show="modal_back_show"
+         class="modal-backdrop fade in">
     </div>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ elixir('js/all.js') }}"></script>

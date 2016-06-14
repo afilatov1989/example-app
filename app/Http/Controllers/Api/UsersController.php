@@ -120,8 +120,17 @@ class UsersController extends Controller
             'calories_per_day',
         ]);
 
-        $validator = $this->userUpdateValidator($data);
+        $validator = $this->userUpdateValidator($data, $user);
         if ($validator->fails()) {
+            // If the validator failed because of email conflict,
+            // return http conflict error
+            if (isset($validator->failed()['email']['Unique'])) {
+                return rest_error_response(
+                    Response::HTTP_CONFLICT,
+                    'The email has already been taken.'
+                );
+            }
+
             return rest_validator_error_response($validator);
         }
 
@@ -139,7 +148,9 @@ class UsersController extends Controller
         $user->email = $data['email'];
         $user->calories_per_day = $data['calories_per_day'];
         $user->save();
-        $user->roles()->sync((array)$request->roles);
+        if ($request->has('roles')) {
+            $user->roles()->sync((array)$request->roles);
+        }
 
         return rest_data_response($user->toArray());
     }

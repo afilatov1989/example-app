@@ -60,3 +60,15 @@ $I->seeResponseContainsJson([
         ],
     ],
 ]);
+
+/**
+ * User tries to update email used by another user. Should be 409 (conflict)
+ */
+$I->sendPUT("/users/{$user->id}/?token={$manager->token}", [
+    'name'             => 'New name2',
+    'email'            => 'user10@test.com',
+    'calories_per_day' => 8500,
+]);
+$I->seeResponseCodeIs(409);
+$I->seeResponseIsJson();
+$I->seeResponseContains('"The email has already been taken."');

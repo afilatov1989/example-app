@@ -9,7 +9,7 @@
                      class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <div class="form-group" show-errors>
                                     <label for="date_from"
                                            class="control-label">Date:</label>
@@ -41,7 +41,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-5">
 
                                 <div class="form-group" show-errors>
                                     <label for="time_from"
@@ -149,6 +149,16 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div ng-cloak
+                 ng-show="(!daily_data || daily_data.length <= 0) && page_content_loaded"
+                 class="no-search-results">
+                <h3>Nothing Found</h3>
+                <p>Sorry, no meals matched your criteria</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- ***************************************************************************
@@ -246,13 +256,13 @@ MODAL WINDOW FOR UPDATING A MEAL
 </div>
 
 <div ng-cloak data-ng-show="meal_delete_show"
-     class="delete-meal-modal modal fade in">
+     class="delete-modal modal fade in">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close"
                         aria-hidden="true"
-                        ng-click="deleteMealFormToggle(null)">&times;</button>
+                        ng-click="deleteMealFormToggle()">&times;</button>
                 <h4 class="modal-title">Are you sure?</h4>
             </div>
             <div class="modal-body">

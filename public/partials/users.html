@@ -1,0 +1,137 @@
+<div>
+
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <form name="filterForm" class="form-inline"
+                  method="GET" novalidate>
+                <div id="filter-panel"
+                     class="panel panel-primary">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="form-group">
+                                    <label for="users_filter_email"
+                                           class="control-label">Email:</label>
+
+                                    <input type="text"
+                                           ng-model="filter_data.email"
+                                           name="email" id="users_filter_email"
+                                           class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="form-group">
+                                    <label for="users_filter_name"
+                                           class="control-label">Name:</label>
+
+                                    <input type="text"
+                                           ng-model="filter_data.name"
+                                           name="name" id="users_filter_name"
+                                           class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="submit"
+                                        ng-click="applyFilter()"
+                                        class="btn btn-default">Filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-lg-offset-8 create-user-wrapper">
+            <button ng-click="updateCurUserFormToggle(null)"
+                    class="btn btn-primary">Create new user
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Calories day limit</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in userlist">
+                    <td>
+                        {{user.email}}
+                    </td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.calories_per_day}}</td>
+                    <td class="col-buttons">
+                        <a ng-href="/user_meals/{{user.id}}">
+                            <i class="fa fa-bars"
+                               aria-hidden="true"></i>
+                        </a>
+                        <i class="fa fa-pencil"
+                           ng-click="updateCurUserFormToggle(user)"
+                           aria-hidden="true"></i>
+                        <i class="fa fa-times" aria-hidden="true"
+                           ng-click="deleteUserFormToggle(user)"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-cloak ng-show="users_count == 0 && page_content_loaded"
+                 class="no-search-results">
+                <h3>Nothing Found</h3>
+                <p>Sorry, no users matched your criteria</p>
+            </div>
+            <div class="pagination-wrapper">
+                <ul class="pagination" ng-show="num_pages > 1">
+                    <li ng-class="(current_page == 1) ? 'disabled' : ''">
+                        <a ng-click="setPage(1)" href="#">&laquo;</a>
+                    </li>
+                    <li ng-repeat="(num, class) in getPager()"
+                        class="{{class}}">
+                        <a ng-click="setPage(num)" href="#">{{num}}</a></li>
+                    <li ng-class="(current_page == num_pages) ? 'disabled' : ''">
+                        <a ng-click="setPage(num_pages)" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div ng-cloak data-ng-show="user_delete_show"
+     class="delete-modal modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        aria-hidden="true"
+                        ng-click="deleteUserFormToggle()">&times;</button>
+                <h4 class="modal-title">Are you sure?</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    The user will be deleted permanently.<br/>
+                    You will not be able to recover him (her).
+                </p>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="deleteUserFormToggle()">
+                        Cancel
+                    </button>
+                    <button type="button"
+                            class="btn btn-danger"
+                            ng-click="deleteUser(deleting_user)">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

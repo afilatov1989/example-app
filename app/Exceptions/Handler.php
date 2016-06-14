@@ -57,7 +57,10 @@ class Handler extends ExceptionHandler
                 return rest_error_response(404, 'Resource not found');
             }
 
-            $code = $e->getStatusCode();
+            $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+            if ($e instanceof HttpException) {
+                $code = $e->getStatusCode();
+            }
             $message = $e->getMessage();
 
             if ($code == Response::HTTP_FORBIDDEN && $message == '') {

@@ -14,6 +14,32 @@ body {
   }
 }
 
+.modal-form-message {
+  text-align: right;
+  line-height: 38px;
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.close_wrapper {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  z-index: 20;
+}
+
+.close {
+  text-shadow: none;
+  color: $color_warning;
+  opacity: 0.8;
+  font-size: 24px;
+  &:hover {
+    color: $color_warning;
+    opacity: 1;
+  }
+}
+
 .modal {
   display: block;
 }
@@ -35,6 +61,15 @@ USERS PAGE AND NAVIGATION
   &:hover {
     color: #fff;
   }
+}
+
+.create-user-wrapper {
+  padding-bottom: 10px;
+  text-align: right;
+}
+
+.no-search-results {
+  text-align: center;
 }
 
 .navbar-nav.navbar-user {
@@ -105,12 +140,12 @@ MEALS PAGE
   }
 }
 
-.day_total_calories{
+.day_total_calories {
   float: right;
   display: inline-block;
 }
 
-.meals-table {
+.table {
   table-layout: fixed;
   .col-time {
     width: 80px;
@@ -121,6 +156,10 @@ MEALS PAGE
   .col-buttons {
     text-align: right;
     width: 60px;
+    .fa-bars {
+      color: $color_success;
+      margin-right: 10px;
+    }
     .fa-pencil {
       color: $color_warning;
       margin-right: 10px;
@@ -133,10 +172,17 @@ MEALS PAGE
       display: inline-block;
       font-size: 16px;
     }
+    a {
+      text-decoration: none;
+    }
   }
 }
 
-.delete-meal-modal {
+.pagination-wrapper {
+  text-align: center;
+}
+
+.delete-modal {
   top: 15%;
 }
 
@@ -171,6 +217,6 @@ MEDIA QUERIES
   }
 
   .filter-time-input {
-    max-width: 100px;
+    max-width: 120px;
   }
 }
