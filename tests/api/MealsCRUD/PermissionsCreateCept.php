@@ -29,6 +29,7 @@ $I->sendPOST("/user_meals/{$user1->id}/?token={$admin->token}", [
     'text'     => 'Some random text...',
     'calories' => 670,
 ]);
+
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->seeResponseContains('"date": "2016-04-06"');

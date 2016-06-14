@@ -49,7 +49,6 @@ $I->seeResponseIsJson();
 $I->seeResponseContains('Meal successfully deleted');
 $I->seeResponseContains('"id": "' . $meal->id . '"');
 
-
 $meal = $I->createNewMealByUser($user1);
 
 /**

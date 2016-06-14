@@ -23,6 +23,7 @@ $I->seeResponseContains("Access denied");
 $I->sendGET("/users/", [
     'token' => $manager->token,
 ]);
+
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->seeResponseContains('"current_page": 1');

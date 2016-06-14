@@ -33,6 +33,7 @@ $I->sendGET("/user_meals/{$user1->id}/", [
     'time-from' => '04:30',
     'time-to'   => '22:30',
 ]);
+
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->seeResponseContains('"email": "' . $user1->email . '"');

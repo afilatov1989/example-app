@@ -16,6 +16,7 @@ $I->sendPUT("/users/{$user1->id}/?token={$user1->token}", [
     'email'            => 'new_email@test.com',
     'calories_per_day' => 8000,
 ]);
+
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->seeResponseContainsJson([

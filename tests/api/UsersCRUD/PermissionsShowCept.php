@@ -14,6 +14,7 @@ $admin = $I->getUserByEmail('admin@test.com');
 $I->sendGET("/users/{$user1->id}/", [
     'token' => $user1->token,
 ]);
+
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->seeResponseContainsJson([

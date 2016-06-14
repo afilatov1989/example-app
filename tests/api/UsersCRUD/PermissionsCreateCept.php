@@ -29,6 +29,7 @@ $I->sendPOST("/users/?token={$manager->token}", [
     'password'         => 'qwerty123',
     'calories_per_day' => 3000,
 ]);
+
 $I->seeResponseCodeIs(200);
 $I->seeResponseIsJson();
 $I->seeResponseContainsJson([
