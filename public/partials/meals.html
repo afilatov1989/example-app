@@ -72,6 +72,7 @@
                             </div>
                             <div class="col-lg-2">
                                 <button type="submit"
+                                        id="meals_filter_button"
                                         class="btn btn-default">Filter
                                 </button>
                             </div>
@@ -91,6 +92,7 @@
             <h3 class="user-change-text">
                 <span ng-bind="meals_owner.name"></span>
                 <i class="fa fa-pencil"
+                   id="meals_owner_edit"
                    ng-click="updateCurUserFormToggle(meals_owner)"
                    aria-hidden="true"></i>
             </h3>
@@ -103,7 +105,8 @@
                    ng-click="updateCurUserFormToggle(meals_owner)"
                    aria-hidden="true"></i>
             </div>
-            <button ng-click="updateMealFormToggle(meal, 'Create new meal')"
+            <button id="create_new_meal_button"
+                    ng-click="updateMealFormToggle(meal, 'Create new meal')"
                     class="btn btn-primary">Create new meal
             </button>
         </div>
@@ -123,7 +126,7 @@
                         <thead>
                         <tr>
                             <th class="col-time">Time</th>
-                            <th>Description</th>
+                            <th class="col-description">Description</th>
                             <th class="col-calories">Calories</th>
                             <th class="col-buttons"></th>
                         </tr>
@@ -133,7 +136,7 @@
                             <td class="col-time">
                                 {{meal.time}}
                             </td>
-                            <td>{{meal.text}}</td>
+                            <td class="col-description">{{meal.text}}</td>
                             <td class="col-calories">{{meal.calories}}</td>
                             <td class="col-buttons">
                                 <i class="fa fa-pencil"
@@ -247,6 +250,7 @@ MODAL WINDOW FOR UPDATING A MEAL
                 </button>
                 <button type="button"
                         class="btn btn-primary"
+                        id="create_update_meal_submit"
                         ng-click="updateOrCreateMeal()">
                     Save changes
                 </button>
@@ -281,6 +285,7 @@ MODAL WINDOW FOR UPDATING A MEAL
                         Cancel
                     </button>
                     <button type="button"
+                            id="delete_meal_button"
                             class="btn btn-danger"
                             ng-click="deleteMeal(current_meal)">
                         Delete

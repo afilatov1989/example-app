@@ -32,6 +32,7 @@
                             </div>
                             <div class="col-lg-2">
                                 <button type="submit"
+                                        id="users_filter_click"
                                         ng-click="applyFilter()"
                                         class="btn btn-default">Filter
                                 </button>
@@ -44,7 +45,8 @@
     </div>
     <div class="row">
         <div class="col-lg-3 col-lg-offset-8 create-user-wrapper">
-            <button ng-click="updateCurUserFormToggle(null)"
+            <button id="user_create_button"
+                    ng-click="updateCurUserFormToggle(null)"
                     class="btn btn-primary">Create new user
             </button>
         </div>
@@ -62,11 +64,13 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="user in userlist">
-                    <td>
+                    <td class="col-user-email">
                         {{user.email}}
                     </td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.calories_per_day}}</td>
+                    <td class="col-user-name">{{user.name}}</td>
+                    <td class="col-user-cal-per-day">
+                        {{user.calories_per_day}}
+                    </td>
                     <td class="col-buttons">
                         <a ng-href="/user_meals/{{user.id}}">
                             <i class="fa fa-bars"
@@ -125,7 +129,7 @@
                             ng-click="deleteUserFormToggle()">
                         Cancel
                     </button>
-                    <button type="button"
+                    <button type="button" id="user-delete-button"
                             class="btn btn-danger"
                             ng-click="deleteUser(deleting_user)">
                         Delete

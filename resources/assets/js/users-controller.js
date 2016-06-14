@@ -61,7 +61,7 @@
                     $location.path('/users').search({
                         name: $scope.filter_data.name,
                         email: $scope.filter_data.email,
-                        page: $scope.filter_data.page
+                        page: $scope.filter_data.page || 1
                     });
                 };
 

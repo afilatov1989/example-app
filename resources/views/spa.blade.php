@@ -11,7 +11,7 @@
                      data-toggle="dropdown"
                      data-target=".user-dropdown">
                     <i class="fa fa-user"></i>
-                    <span ng-bind="current_user.name"></span>
+                    <span id="" ng-bind="current_user.name"></span>
                     <b class="caret"></b>
                 </div>
                 <div class="navbar-header">
@@ -56,7 +56,8 @@
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a ng-href="/" ng-click="logout()">
+                                <a id="navbar_logout" ng-href="/"
+                                   ng-click="logout()">
                                     <i class="fa fa-power-off"></i> Log Out
                                 </a>
                             </li>
@@ -105,11 +106,12 @@
 
     <div>
         <div ng-cloak data-ng-show="cur_user_update_show"
+             id="user-update-create-modal-window"
              class="modal modal-open fade in">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close_wrapper">
-                        <button type="button" class="close"
+                        <button type="button" class="close" id="user_form_close_button"
                                 aria-hidden="true"
                                 ng-click="updateCurUserFormToggle()">&times;</button>
                     </div>
@@ -227,6 +229,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <button type="submit"
+                                                id="user_update_submit"
                                                 class="btn btn-primary"
                                                 ng-click="updateOrCreateUser()">
                                             Save changes
@@ -265,6 +268,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <button type="submit"
+                                                id="user_change_pass_submit"
                                                 class="btn btn-primary"
                                                 ng-click="changeUserPassword()">
                                             Save changes
