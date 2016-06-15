@@ -72,14 +72,16 @@
                         {{user.calories_per_day}}
                     </td>
                     <td class="col-buttons">
-                        <a ng-href="/user_meals/{{user.id}}">
+                        <a data-ng-show="tokenClaims.can_manage_records"
+                           ng-href="/user_meals/{{user.id}}">
                             <i class="fa fa-bars"
                                aria-hidden="true"></i>
                         </a>
                         <i class="fa fa-pencil"
                            ng-click="updateCurUserFormToggle(user)"
                            aria-hidden="true"></i>
-                        <i class="fa fa-times" aria-hidden="true"
+                        <i data-ng-show="user.id != current_user.id"
+                           class="fa fa-times" aria-hidden="true"
                            ng-click="deleteUserFormToggle(user)"></i>
                     </td>
                 </tr>

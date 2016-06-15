@@ -40,6 +40,8 @@
                         $rootScope.page_content_loaded = true;
                         if ($scope.filter_data.page > $scope.num_pages)
                             $scope.setPage($scope.num_pages);
+                        if ($scope.filter_data.page < 1)
+                            $scope.setPage(1);
                     });
                 };
                 $rootScope.getUsers();
