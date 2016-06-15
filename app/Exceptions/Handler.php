@@ -72,9 +72,17 @@ class Handler extends ExceptionHandler
             if ($code == Response::HTTP_METHOD_NOT_ALLOWED && $message == '') {
                 $message = 'Method not allowed';
             }
+            if ($e instanceof TokenInvalidException) {
+                $code = Response::HTTP_UNAUTHORIZED;
+                if ($message == '') {
+                    $message = 'Token is invalid';
+                }
+            }
             if ($e instanceof TokenExpiredException) {
                 $code = Response::HTTP_UNAUTHORIZED;
-                $message = 'Token has expired';
+                if ($message == '') {
+                    $message = 'Token has expired';
+                }
             }
 
             return rest_error_response($code, $message);
