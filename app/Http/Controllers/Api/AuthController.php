@@ -45,7 +45,6 @@ class AuthController extends Controller
         }
 
         $user_data = $user->toArray();
-        $user_data['roles'] = $user->roles->toArray();
 
         return rest_data_response([
             'token' => $token,
@@ -86,7 +85,6 @@ class AuthController extends Controller
         $user = User::create($data);
         $custom_claims = $user->getCustomClaims();
         $user_data = $user->toArray();
-        $user_data['roles'] = $user->roles->toArray();
         $token = $auth->fromUser($user, $custom_claims);
 
         return rest_data_response([
