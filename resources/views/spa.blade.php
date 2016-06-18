@@ -15,7 +15,7 @@
                     <b class="caret"></b>
                 </div>
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Toptal screening app</a>
+                    <a class="navbar-brand" href="/">Example app</a>
                     <button ng-cloak data-ng-hide="token"
                             type="button" class="navbar-toggle collapsed"
                             data-toggle="collapse"
@@ -111,7 +111,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close_wrapper">
-                        <button type="button" class="close" id="user_form_close_button"
+                        <button type="button" class="close"
+                                id="user_form_close_button"
                                 aria-hidden="true"
                                 ng-click="updateCurUserFormToggle()">&times;</button>
                     </div>

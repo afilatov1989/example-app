@@ -26,7 +26,16 @@ class AuthController extends Controller
     public function signIn(Request $request, JWTAuth $auth)
     {
         $credentials = $request->only('email', 'password');
-        $custom_claims = User::getCustomClaims($request->email);
+        $user = User::getByEmail($request->email);
+
+        if (! $user) {
+            return rest_error_response(
+                Response::HTTP_UNAUTHORIZED,
+                'Invalid credentials'
+            );
+        }
+
+        $custom_claims = $user->getCustomClaims();
 
         if (! $token = $auth->attempt($credentials, $custom_claims)) {
             return rest_error_response(
@@ -35,7 +44,6 @@ class AuthController extends Controller
             );
         }
 
-        $user = User::getByEmail($request->email);
         $user_data = $user->toArray();
         $user_data['roles'] = $user->roles->toArray();
 
@@ -75,8 +83,8 @@ class AuthController extends Controller
             );
         }
 
-        $custom_claims = User::getCustomClaims($request->email);
         $user = User::create($data);
+        $custom_claims = $user->getCustomClaims();
         $user_data = $user->toArray();
         $user_data['roles'] = $user->roles->toArray();
         $token = $auth->fromUser($user, $custom_claims);

@@ -8,7 +8,7 @@
     any other head content must come *after* these tags -->
 
     <base href="/">
-    <title>Toptal screening app</title>
+    <title>Example app</title>
 
     <!-- Bootstrap -->
     <link href="{{ elixir('css/all.css') }}" rel="stylesheet">

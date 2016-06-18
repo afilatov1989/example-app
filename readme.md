@@ -1,4 +1,4 @@
-# Calories input app
+# Example one page app
 
 The app consists of almost completely decoupled backend and frontend parts.
 
