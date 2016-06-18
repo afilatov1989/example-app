@@ -1,0 +1,21 @@
+language: php
+php:
+- '7.0'
+before_script:
+- cp .env.travis .env
+- mysql -e 'create database homestead;'
+- composer self-update
+- composer install --no-interaction
+- php artisan migrate
+- php artisan db:seed
+script:
+- php vendor/bin/codecept run
+addons:
+  hosts:
+  - screening.dev
+notifications:
+  webhooks:
+    urls:
+      secure: IQoMo22Zi9TRfY9RvJxmgASwVCCMcRxfZ7AA0moVdqs7XNCHE33ftL9z5gQa/157RGY4kACBR8nRWMvPApbnL3HUF01hh34+31e8QCH7NvnnjRk3no4Q+eGFEdcBi6S8ZxdMeIKcDKo6UBi3tiVRs4Jd1Df7EnOAGP/4pNsbNdSs+gtuVBDEB1F2aID4/K/c+xUtMXHZheWQ2aP6V70JL5a36wEfsbFfQanGv62UAAqjE4biaLtBx968BKjDt/yuFoJ0918wkXr0dE/JIBJjQsaRMwi+01N2jtmzhJRfm5f1Ps4NbipaT76Qw3GfAojA1h5WMttsNR30pSmViZ2IiW++OUaCBZqfbNfcXk9QDn4TeR+PRl39//qoi3siqI4GIPmfxZMrt759F7kTD08PBbScXdYR9NHD9KGMxvuXL6gnMehaxXZcjm9qjXN14GPV4J+hgDakSkTKtvUVBB5ncVckpdMp/uZE+Pc8UT0NilCW7qp7bbw8Pbs3OLss8CkcTz7UATi6PRHe79dbCMLYAWBicxZQdpAtDiS1W8HY8Zp4aE02WI8x/necS2FHE/mufvlERNO/0/vJrvWZFmpDuTexOYb5k4UUSq531+ZDkZ6LPLISd+j0PRX0pgbq7fbuSer8tk/K5dvJ2M26YPG9Jnd0P/qjdeTCMDB18vOj1o8=
+    on_success: always
+    on_failure: never
