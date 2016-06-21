@@ -6,7 +6,7 @@ Frontend part is a single page application (SPA), created using **AngularJS**.
 
 Backend part is a REST API, created using **Laravel** framework (PHP).
 
-Test app deployment is accessible [here](http://screening.a-filatov.com/).
+Test app deployment is accessible [here](http://example.a-filatov.com/).
 
 ## Test credentials
 **Admin account (can CRUD all users and all records):**
